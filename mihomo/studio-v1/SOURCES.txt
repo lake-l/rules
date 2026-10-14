@@ -1,0 +1,109 @@
+固定规则快照，生成时展开写入 YAML，不自动更新。
+分类参考：
+https://github.com/n0de-sudo/Perfect-Rules
+https://github.com/lizhist/ZJU-Rule
+域名数据：MetaCubeX/meta-rules-dat (及其上游 v2fly/domain-list-community 等)
+ZJU-Rule 按仓库声明 CC-BY-SA 4.0；保留来源，改编内容沿用该许可。
+本快照改动：分类、去重、排除宽泛广告关键词、移除不支持的 USER-AGENT 规则。
+快照时间：2026-10-12
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list · 130 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list · 614 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list · 902 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list · 1028 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/docker.list · 6 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.list · 24 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.list · 28 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.list · 30 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook.list · 397 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gitlab.list · 5 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.list · 60 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/npmjs.list · 3 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list · 280 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list · 1075 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list · 65 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list · 21 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.list · 12 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaCompanyIp.list · 221 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list · 178 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.list · 4 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.list · 24 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/Telegram.list · 12 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list · 16 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list · 28 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list · 189 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.list · 224 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.list · 74 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list · 749 条
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list · 1792 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list · 12615 条
+https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list · 600 条
+跳过条目：
+[
+  {
+    "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list",
+    "issues": [
+      "第 3 条：暂不支持规则类型 USER-AGENT",
+      "第 9 条：暂不支持规则类型 USER-AGENT",
+      "第 30 条：暂不支持规则类型 URL-REGEX",
+      "第 31 条：暂不支持规则类型 USER-AGENT",
+      "第 32 条：暂不支持规则类型 USER-AGENT",
+      "第 37 条：暂不支持规则类型 USER-AGENT",
+      "第 52 条：暂不支持规则类型 USER-AGENT",
+      "第 57 条：暂不支持规则类型 USER-AGENT",
+      "第 69 条：暂不支持规则类型 USER-AGENT",
+      "第 72 条：暂不支持规则类型 USER-AGENT",
+      "第 73 条：暂不支持规则类型 USER-AGENT",
+      "第 94 条：暂不支持规则类型 USER-AGENT",
+      "第 100 条：暂不支持规则类型 USER-AGENT",
+      "第 104 条：暂不支持规则类型 USER-AGENT",
+      "第 105 条：暂不支持规则类型 USER-AGENT",
+      "第 111 条：暂不支持规则类型 USER-AGENT",
+      "第 132 条：暂不支持规则类型 USER-AGENT",
+      "第 148 条：暂不支持规则类型 USER-AGENT",
+      "第 152 条：暂不支持规则类型 USER-AGENT",
+      "第 153 条：暂不支持规则类型 USER-AGENT",
+      "第 169 条：暂不支持规则类型 USER-AGENT",
+      "第 170 条：暂不支持规则类型 USER-AGENT",
+      "第 176 条：暂不支持规则类型 USER-AGENT",
+      "第 177 条：暂不支持规则类型 USER-AGENT",
+      "第 182 条：暂不支持规则类型 USER-AGENT",
+      "第 186 条：暂不支持规则类型 USER-AGENT",
+      "第 193 条：暂不支持规则类型 USER-AGENT",
+      "第 235 条：暂不支持规则类型 USER-AGENT",
+      "第 239 条：暂不支持规则类型 USER-AGENT",
+      "第 241 条：暂不支持规则类型 USER-AGENT",
+      "第 248 条：暂不支持规则类型 USER-AGENT",
+      "第 252 条：暂不支持规则类型 USER-AGENT",
+      "第 261 条：暂不支持规则类型 USER-AGENT",
+      "第 265 条：暂不支持规则类型 USER-AGENT",
+      "第 268 条：暂不支持规则类型 USER-AGENT",
+      "第 286 条：暂不支持规则类型 USER-AGENT",
+      "第 287 条：暂不支持规则类型 USER-AGENT",
+      "第 303 条：暂不支持规则类型 USER-AGENT",
+      "第 304 条：暂不支持规则类型 USER-AGENT",
+      "第 305 条：暂不支持规则类型 USER-AGENT",
+      "第 320 条：暂不支持规则类型 USER-AGENT",
+      "第 321 条：暂不支持规则类型 USER-AGENT",
+      "第 322 条：暂不支持规则类型 USER-AGENT",
+      "第 323 条：暂不支持规则类型 USER-AGENT"
+    ]
+  }
+]
+原始文本副本位于 data/upstream；MetaCubeX GPLv3 许可位于 third-party/META-RULES-LICENSE。
+ZJU-Rule 许可声明来源：https://github.com/lizhist/ZJU-Rule
+CC-BY-SA 4.0：https://creativecommons.org/licenses/by-sa/4.0/
+
+2026-10-13 分流修正（revision 2026-10-13-routing-1）
+国内明确域名提前至订阅规则之前；B站国际版例外先于国内版；加入国内服务与下载规则；去除国内关键词匹配和共享 smtcdns 全域匹配；移除旧 ChinaCompanyIp 列表，改用 geoip/cn 快照，no-resolve；去除 graph.instagram.com 与 graph-fallback.instagram.com 广告误拦。
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.list · upstream/audit-bilibili.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list · upstream/audit-biliintl.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list · upstream/audit-geolocation-cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.list · upstream/audit-cn.list · 仅用于核实补充域名
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.list · upstream/audit-microsoft@cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.list · upstream/audit-apple-cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.list · upstream/audit-steam@cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list · upstream/audit-category-ai-cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list · upstream/audit-geosite-category-bank-cn.list · 分流审查补充快照
+https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list · upstream/audit-geoip-cn.list · 分流审查补充快照
+Steam @cn 中 steamserver.net、steamusercontent.com 不整体改直连，保留原游戏策略。未将 11 万条 cn 域名全量导入。
+Instagram API 依据：https://www.postman.com/meta/instagram/documentation/6yqw8pt/instagram-api
