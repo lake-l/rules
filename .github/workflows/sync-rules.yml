@@ -1,0 +1,46 @@
+name: Sync upstream rules
+on:
+  schedule:
+    # 03:17 Asia/Shanghai, daily. GitHub schedules may be delayed.
+    - cron: '17 19 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-rules.yml'
+      - 'scripts/**'
+      - 'sync/**'
+permissions:
+  contents: write
+concurrency:
+  group: sync-upstream-rules
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test updater safeguards
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Prepare pinned Mihomo validator
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 -o "$RUNNER_TEMP/mihomo.gz" https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-linux-amd64-v1-v1.19.32.gz
+          echo "306f81e723e60ce6b828899a6fe83e1d00e9ecefb2dc8d4d849312a5bc00efdc  $RUNNER_TEMP/mihomo.gz" | sha256sum --check
+          gzip -d "$RUNNER_TEMP/mihomo.gz"
+          chmod +x "$RUNNER_TEMP/mihomo"
+      - name: Fetch, apply corrections and validate
+        run: python3 scripts/sync_rules.py --mihomo "$RUNNER_TEMP/mihomo"
+      - name: Publish only changed rule outputs
+        shell: bash
+        run: |
+          git add -- mihomo/studio-v1/preset-*.yaml mihomo/studio-v1/snapshot.json mihomo/studio-v1/sync-status.json
+          if git diff --cached --quiet; then
+            echo 'No rule changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update validated upstream rule snapshot'
+          git push origin HEAD:main

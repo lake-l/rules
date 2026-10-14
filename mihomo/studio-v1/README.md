@@ -1,10 +1,10 @@
 # 订阅工坊 Mihomo 规则
 
-用于订阅工坊 1.3.0 的固定分组规则。
+用于订阅工坊 1.3.0 及更新版本的固定分组规则。
 
 每个 YAML 文件均为 behavior: classical / format: yaml 的 payload；匹配出口与顺序由主配置中的 RULE-SET 决定。
 
-默认每360 分钟由 Mihomo 直连更新，Git 仓库不会自动抓取上游；只有这里的文件被更新后，客户端才会收到新规则。
+客户端默认每 360 分钟直连下载规则。仓库通过 GitHub Actions 每天北京时间 03:17 计划同步上游（可能延迟），校验通过后自动提交；失败保留原版本。可在 Actions → Sync upstream rules → Run workflow 手动同步。
 
 内置分类：
 
@@ -31,3 +31,6 @@
 个人/订阅规则可选择“全部规则”，导出规则包后只上传新增 custom- 文件。此类文件名标识导出时内容，保持旧文件可避免旧配置链接失效；编辑已引用文件可以让客户端定期获取修改。
 
 修改与许可：规则经过分类、去重。MetaCubeX 数据的 GPLv3 许可见 LICENSE-META-RULES.txt；ZJU-Rule 衍生部分遵循 CC-BY-SA 4.0：https://creativecommons.org/licenses/by-sa/4.0/ 。各上游的许可与署名继续适用。
+
+自动同步的来源、修正和使用方法见 [维护说明](../../sync/README.md)。`snapshot.json` 是两种导出共用的完整规则快照；订阅工坊 1.4.0 可用“获取最新规则”更新。请维护 `sync/overrides.json`，直接修改生成的 preset 文件会被后续同步覆盖；custom-* 文件不受同步影响。
+

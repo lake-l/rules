@@ -1,0 +1,393 @@
+{
+  "schema": 1,
+  "sources": {
+    "00-private.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
+      "behavior": "domain",
+      "baselineCount": 130
+    },
+    "01-BanAD.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list",
+      "behavior": "classical",
+      "baselineCount": 614
+    },
+    "02-category-ads-all.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
+      "behavior": "domain",
+      "baselineCount": 902
+    },
+    "03-BanProgramAD.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
+      "behavior": "classical",
+      "baselineCount": 1028
+    },
+    "29-BanEasyPrivacy.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
+      "behavior": "classical",
+      "baselineCount": 12615
+    },
+    "audit-biliintl.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list",
+      "behavior": "domain",
+      "baselineCount": 11
+    },
+    "audit-bilibili.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.list",
+      "behavior": "domain",
+      "baselineCount": 53
+    },
+    "audit-microsoft@cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.list",
+      "behavior": "domain",
+      "baselineCount": 189
+    },
+    "audit-apple-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.list",
+      "behavior": "domain",
+      "baselineCount": 165
+    },
+    "audit-steam@cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.list",
+      "behavior": "domain",
+      "baselineCount": 19
+    },
+    "audit-category-ai-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list",
+      "behavior": "domain",
+      "baselineCount": 115
+    },
+    "audit-geosite-category-bank-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
+      "behavior": "domain",
+      "baselineCount": 55
+    },
+    "24-category-ai-!cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
+      "behavior": "domain",
+      "baselineCount": 189
+    },
+    "18-youtube.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
+      "behavior": "domain",
+      "baselineCount": 178
+    },
+    "05-netflix.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.list",
+      "behavior": "domain",
+      "baselineCount": 24
+    },
+    "25-disney.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.list",
+      "behavior": "domain",
+      "baselineCount": 224
+    },
+    "15-telegram.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list",
+      "behavior": "domain",
+      "baselineCount": 21
+    },
+    "21-Telegram.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/Telegram.list",
+      "behavior": "classical",
+      "baselineCount": 12
+    },
+    "06-discord.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.list",
+      "behavior": "domain",
+      "baselineCount": 28
+    },
+    "08-facebook.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook.list",
+      "behavior": "domain",
+      "baselineCount": 397
+    },
+    "16-reddit.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.list",
+      "behavior": "domain",
+      "baselineCount": 12
+    },
+    "20-twitter.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.list",
+      "behavior": "domain",
+      "baselineCount": 24
+    },
+    "26-instagram.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.list",
+      "behavior": "domain",
+      "baselineCount": 74
+    },
+    "22-onedrive.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list",
+      "behavior": "domain",
+      "baselineCount": 16
+    },
+    "04-docker.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/docker.list",
+      "behavior": "domain",
+      "baselineCount": 6
+    },
+    "09-gitlab.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gitlab.list",
+      "behavior": "domain",
+      "baselineCount": 5
+    },
+    "11-npmjs.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/npmjs.list",
+      "behavior": "domain",
+      "baselineCount": 3
+    },
+    "14-github.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list",
+      "behavior": "domain",
+      "baselineCount": 65
+    },
+    "07-epicgames.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.list",
+      "behavior": "domain",
+      "baselineCount": 30
+    },
+    "10-steam.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.list",
+      "behavior": "domain",
+      "baselineCount": 60
+    },
+    "19-playstation.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.list",
+      "behavior": "domain",
+      "baselineCount": 4
+    },
+    "12-ProxyMedia.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list",
+      "behavior": "classical",
+      "baselineCount": 280
+    },
+    "23-spotify.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list",
+      "behavior": "domain",
+      "baselineCount": 28
+    },
+    "13-google.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list",
+      "behavior": "domain",
+      "baselineCount": 1075
+    },
+    "27-microsoft.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
+      "behavior": "domain",
+      "baselineCount": 749
+    },
+    "28-apple.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
+      "behavior": "domain",
+      "baselineCount": 1792
+    },
+    "audit-geolocation-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
+      "behavior": "domain",
+      "baselineCount": 5385
+    },
+    "30-ChinaDomain.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
+      "behavior": "classical",
+      "baselineCount": 600
+    },
+    "audit-geoip-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
+      "behavior": "ipcidr",
+      "baselineCount": 9609
+    }
+  },
+  "groups": [
+    {
+      "id": "preset-0",
+      "name": "局域网",
+      "target": "局域网",
+      "sources": [
+        "00-private.list"
+      ],
+      "baselineCount": 138
+    },
+    {
+      "id": "preset-1",
+      "name": "广告与跟踪拦截",
+      "target": "广告与跟踪拦截",
+      "sources": [
+        "01-BanAD.list",
+        "02-category-ads-all.list",
+        "03-BanProgramAD.list",
+        "29-BanEasyPrivacy.list"
+      ],
+      "baselineCount": 14850
+    },
+    {
+      "id": "preset-biliintl",
+      "name": "B站国际版",
+      "target": "其他海外媒体",
+      "sources": [
+        "audit-biliintl.list"
+      ],
+      "baselineCount": 11
+    },
+    {
+      "id": "preset-cn-services",
+      "name": "国内服务与下载",
+      "target": "国内网站",
+      "sources": [
+        "audit-bilibili.list",
+        "audit-microsoft@cn.list",
+        "audit-apple-cn.list",
+        "audit-steam@cn.list",
+        "audit-category-ai-cn.list",
+        "audit-geosite-category-bank-cn.list"
+      ],
+      "baselineCount": 487
+    },
+    {
+      "id": "preset-2",
+      "name": "AI 服务",
+      "target": "AI 服务",
+      "sources": [
+        "24-category-ai-!cn.list"
+      ],
+      "baselineCount": 189
+    },
+    {
+      "id": "preset-3",
+      "name": "YouTube",
+      "target": "YouTube",
+      "sources": [
+        "18-youtube.list"
+      ],
+      "baselineCount": 178
+    },
+    {
+      "id": "preset-4",
+      "name": "Netflix",
+      "target": "Netflix",
+      "sources": [
+        "05-netflix.list"
+      ],
+      "baselineCount": 24
+    },
+    {
+      "id": "preset-5",
+      "name": "Disney+",
+      "target": "Disney+",
+      "sources": [
+        "25-disney.list"
+      ],
+      "baselineCount": 224
+    },
+    {
+      "id": "preset-6",
+      "name": "Telegram",
+      "target": "Telegram",
+      "sources": [
+        "15-telegram.list",
+        "21-Telegram.list"
+      ],
+      "baselineCount": 27
+    },
+    {
+      "id": "preset-7",
+      "name": "社交平台",
+      "target": "社交平台",
+      "sources": [
+        "06-discord.list",
+        "08-facebook.list",
+        "16-reddit.list",
+        "20-twitter.list",
+        "26-instagram.list"
+      ],
+      "baselineCount": 535
+    },
+    {
+      "id": "preset-8",
+      "name": "OneDrive",
+      "target": "OneDrive",
+      "sources": [
+        "22-onedrive.list"
+      ],
+      "baselineCount": 16
+    },
+    {
+      "id": "preset-9",
+      "name": "开发工具",
+      "target": "开发工具",
+      "sources": [
+        "04-docker.list",
+        "09-gitlab.list",
+        "11-npmjs.list",
+        "14-github.list"
+      ],
+      "baselineCount": 76
+    },
+    {
+      "id": "preset-10",
+      "name": "游戏平台",
+      "target": "游戏平台",
+      "sources": [
+        "07-epicgames.list",
+        "10-steam.list",
+        "19-playstation.list"
+      ],
+      "baselineCount": 94
+    },
+    {
+      "id": "preset-11",
+      "name": "其他海外媒体",
+      "target": "其他海外媒体",
+      "sources": [
+        "12-ProxyMedia.list",
+        "23-spotify.list"
+      ],
+      "baselineCount": 302
+    },
+    {
+      "id": "preset-12",
+      "name": "Google 服务",
+      "target": "Google 服务",
+      "sources": [
+        "13-google.list"
+      ],
+      "baselineCount": 1075
+    },
+    {
+      "id": "preset-13",
+      "name": "Microsoft 服务",
+      "target": "Microsoft 服务",
+      "sources": [
+        "27-microsoft.list"
+      ],
+      "baselineCount": 747
+    },
+    {
+      "id": "preset-14",
+      "name": "Apple 服务",
+      "target": "Apple 服务",
+      "sources": [
+        "28-apple.list"
+      ],
+      "baselineCount": 1790
+    },
+    {
+      "id": "preset-15",
+      "name": "国内网站",
+      "target": "国内网站",
+      "sources": [
+        "audit-geolocation-cn.list",
+        "30-ChinaDomain.list"
+      ],
+      "baselineCount": 5718
+    },
+    {
+      "id": "preset-cn-ip",
+      "name": "国内 IP 兜底",
+      "target": "国内网站",
+      "sources": [
+        "audit-geoip-cn.list"
+      ],
+      "baselineCount": 9609
+    }
+  ]
+}

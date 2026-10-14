@@ -1,0 +1,183 @@
+{
+  "revision": "sync-9691856ac5f57fff5c9c51e594c4124aa4ecd0302621ecffd9a97119729d6fc9",
+  "updatedAt": "2026-10-14T09:19:30.739919+00:00",
+  "sources": {
+    "00-private.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
+      "count": 130
+    },
+    "01-BanAD.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list",
+      "count": 614
+    },
+    "02-category-ads-all.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
+      "count": 902
+    },
+    "03-BanProgramAD.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
+      "count": 1028
+    },
+    "29-BanEasyPrivacy.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
+      "count": 12611
+    },
+    "audit-biliintl.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list",
+      "count": 11
+    },
+    "audit-bilibili.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.list",
+      "count": 53
+    },
+    "audit-microsoft@cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.list",
+      "count": 189
+    },
+    "audit-apple-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.list",
+      "count": 165
+    },
+    "audit-steam@cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.list",
+      "count": 19
+    },
+    "audit-category-ai-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list",
+      "count": 115
+    },
+    "audit-geosite-category-bank-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
+      "count": 55
+    },
+    "24-category-ai-!cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
+      "count": 189
+    },
+    "18-youtube.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
+      "count": 178
+    },
+    "05-netflix.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.list",
+      "count": 24
+    },
+    "25-disney.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.list",
+      "count": 224
+    },
+    "15-telegram.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.list",
+      "count": 21
+    },
+    "21-Telegram.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/Telegram.list",
+      "count": 12
+    },
+    "06-discord.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.list",
+      "count": 28
+    },
+    "08-facebook.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook.list",
+      "count": 397
+    },
+    "16-reddit.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.list",
+      "count": 12
+    },
+    "20-twitter.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.list",
+      "count": 24
+    },
+    "26-instagram.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.list",
+      "count": 74
+    },
+    "22-onedrive.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.list",
+      "count": 16
+    },
+    "04-docker.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/docker.list",
+      "count": 6
+    },
+    "09-gitlab.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gitlab.list",
+      "count": 5
+    },
+    "11-npmjs.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/npmjs.list",
+      "count": 3
+    },
+    "14-github.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list",
+      "count": 65
+    },
+    "07-epicgames.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.list",
+      "count": 30
+    },
+    "10-steam.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.list",
+      "count": 60
+    },
+    "19-playstation.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.list",
+      "count": 4
+    },
+    "12-ProxyMedia.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list",
+      "count": 280
+    },
+    "23-spotify.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list",
+      "count": 28
+    },
+    "13-google.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list",
+      "count": 1075
+    },
+    "27-microsoft.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
+      "count": 749
+    },
+    "28-apple.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
+      "count": 1792
+    },
+    "audit-geolocation-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
+      "count": 5385
+    },
+    "30-ChinaDomain.list": {
+      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
+      "count": 600
+    },
+    "audit-geoip-cn.list": {
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
+      "count": 9609
+    }
+  },
+  "groups": {
+    "preset-0": 138,
+    "preset-1": 14846,
+    "preset-biliintl": 11,
+    "preset-cn-services": 487,
+    "preset-2": 189,
+    "preset-3": 178,
+    "preset-4": 24,
+    "preset-5": 224,
+    "preset-6": 27,
+    "preset-7": 535,
+    "preset-8": 16,
+    "preset-9": 76,
+    "preset-10": 94,
+    "preset-11": 302,
+    "preset-12": 1075,
+    "preset-13": 747,
+    "preset-14": 1790,
+    "preset-15": 5718,
+    "preset-cn-ip": 9609
+  }
+}
