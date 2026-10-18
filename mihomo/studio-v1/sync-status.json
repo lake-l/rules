@@ -1,10 +1,10 @@
 {
-  "revision": "sync-5f25539dc2a5c2ace0454513729ccb85ce5e7259201975928f4821aa4ce39f28",
-  "updatedAt": "2026-10-17T21:29:25.231393+00:00",
+  "revision": "sync-f807a2ac7d14817d6f0e3068e9229574a0530cfee7c4a10dd8987c1fde465288",
+  "updatedAt": "2026-10-18T21:31:59.952189+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
-      "count": 130
+      "count": 132
     },
     "01-BanAD.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 189
+      "count": 192
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -160,11 +160,11 @@
     }
   },
   "groups": {
-    "preset-0": 138,
+    "preset-0": 140,
     "preset-1": 14846,
     "preset-biliintl": 11,
     "preset-cn-services": 487,
-    "preset-2": 189,
+    "preset-2": 192,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 224,
