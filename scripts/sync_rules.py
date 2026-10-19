@@ -89,12 +89,19 @@ def fetch_source(item, cache):
     return name, rules
 
 def route(blocks, domain):
+    try:
+        address = ipaddress.ip_address(domain)
+    except ValueError:
+        address = None
     for block in blocks:
         for rule in block['rules']:
             kind, value, *_ = rule.split(',')
             hit = kind == 'DOMAIN' and value == domain or kind == 'DOMAIN-SUFFIX' and (domain == value or domain.endswith('.' + value)) or kind == 'DOMAIN-KEYWORD' and value in domain
             if kind == 'DOMAIN-WILDCARD':
                 hit = re.fullmatch(re.escape(value).replace(r'\*', '.*').replace(r'\?', '.'), domain) is not None
+            if address is not None and kind in ('IP-CIDR', 'IP-CIDR6'):
+                network = ipaddress.ip_network(value, strict=False)
+                hit = address.version == network.version and address in network
             if hit:
                 return block['target']
     return '默认代理'
@@ -105,6 +112,43 @@ def check_routes(blocks):
         actual = route(blocks, domain)
         if actual != expected:
             raise ValueError(f'Routing regression: {domain}: {actual} != {expected}')
+    cn_ip = next(b for b in blocks if b['id'] == 'preset-cn-ip')
+    if any(r.split(',')[0] not in ('IP-CIDR', 'IP-CIDR6') or 'no-resolve' in r.split(',')[2:] for r in cn_ip['rules']):
+        raise ValueError('Domestic IP fallback must resolve unmatched domains')
+
+
+def rule_identity(rule):
+    # Changing DNS lookup behavior does not remove the underlying network.
+    return ','.join(p for p in rule.split(',') if p != 'no-resolve')
+
+
+def check_removals(previous, blocks):
+    old = {b['id']: {rule_identity(r) for r in b['rules']} for b in previous['blocks']}
+    for block in blocks:
+        before = old.get(block['id'], set())
+        after = {rule_identity(r) for r in block['rules']}
+        if before and len(before - after) > max(10, len(before) * .2):
+            raise ValueError('Too many removed rules: ' + block['id'])
+
+
+def exclude_networks(rows, exclusions):
+    excluded = [ipaddress.ip_network(value, strict=False) for value in exclusions]
+    result = []
+    for rule in rows:
+        kind, value, *options = rule.split(',')
+        if kind not in ('IP-CIDR', 'IP-CIDR6'):
+            raise ValueError('Network exclusions require IP rules')
+        networks = [ipaddress.ip_network(value, strict=False)]
+        for cut in excluded:
+            narrowed = []
+            for net in networks:
+                if net.version != cut.version or not net.overlaps(cut):
+                    narrowed.append(net)
+                elif not net.subnet_of(cut):
+                    narrowed.extend(net.address_exclude(cut))
+            networks = narrowed
+        result.extend(','.join([kind, str(net)] + options) for net in networks)
+    return list(dict.fromkeys(result))
 
 def build(manifest, overrides, sources):
     blocks = []
@@ -114,6 +158,12 @@ def build(manifest, overrides, sources):
         rows = [r for name in group['sources'] for r in sources[name]]
         rows = [r for r in rows if r not in excluded and r.split(',')[0] not in correction.get('dropTypes', [])]
         rows = list(dict.fromkeys(correction['add'] + rows))
+        if correction.get('resolveIp'):
+            if group['id'] != 'preset-cn-ip' or any(r.split(',')[0] not in ('IP-CIDR', 'IP-CIDR6') for r in rows):
+                raise ValueError('resolveIp is only valid for the domestic IP fallback')
+            rows = list(dict.fromkeys(rule_identity(r) for r in rows))
+        if correction.get('excludeNetworks'):
+            rows = exclude_networks(rows, correction['excludeNetworks'])
         for rule in rows:
             validate_rule(rule)
         if len(rows) < max(1, group['baselineCount'] * .6) or len(rows) > max(100, group['baselineCount'] * 2):
@@ -133,11 +183,7 @@ def run(cache=None, kernel=None):
     previous_path = OUT / 'snapshot.json'
     if previous_path.exists():
         previous = json.loads(previous_path.read_text(encoding='utf-8'))
-        old = {b['id']: set(b['rules']) for b in previous['blocks']}
-        for block in blocks:
-            before, after = old.get(block['id'], set()), set(block['rules'])
-            if before and len(before - after) > max(10, len(before) * .2):
-                raise ValueError('Too many removed rules: ' + block['id'])
+        check_removals(previous, blocks)
     revision = 'sync-' + hashlib.sha256(compact([[b['id'], b['rules']] for b in blocks]).encode()).hexdigest()
     snapshot = {'schema': 1, 'revision': revision, 'updatedAt': dt.datetime.now(dt.timezone.utc).isoformat(), 'blocks': blocks}
     if previous_path.exists() and previous.get('revision') == revision:

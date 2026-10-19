@@ -48,7 +48,21 @@
         "DOMAIN-KEYWORD,zjtoolbar",
         "DOMAIN-SUFFIX,graph.instagram.com",
         "DOMAIN-SUFFIX,graph-fallback.instagram.com",
-        "DOMAIN-KEYWORD,omgmtaw"
+        "DOMAIN-KEYWORD,omgmtaw",
+        "DOMAIN-SUFFIX,lufax.com",
+        "DOMAIN,lufax.com",
+        "DOMAIN-SUFFIX,meiqia.com",
+        "DOMAIN,meiqia.com",
+        "DOMAIN-SUFFIX,ntalker.com",
+        "DOMAIN,ntalker.com",
+        "DOMAIN-SUFFIX,jpush.cn",
+        "DOMAIN,jpush.cn",
+        "DOMAIN-SUFFIX,jiguang.cn",
+        "DOMAIN,jiguang.cn",
+        "DOMAIN-SUFFIX,getui.com",
+        "DOMAIN,getui.com",
+        "DOMAIN-SUFFIX,igexin.com",
+        "DOMAIN,igexin.com"
       ],
       "dropTypes": [
         "DOMAIN-KEYWORD"
@@ -61,6 +75,13 @@
     },
     "preset-cn-services": {
       "add": [
+        "DOMAIN,ed3898297d439d17d78edee363ae92fe.h2.smtcdns.net",
+        "DOMAIN-SUFFIX,shanghaidisneyresort.com",
+        "DOMAIN-SUFFIX,123865.com",
+        "DOMAIN-SUFFIX,123684.com",
+        "DOMAIN-SUFFIX,update.microsoft.com",
+        "DOMAIN-SUFFIX,windowsupdate.microsoft.com",
+        "DOMAIN-SUFFIX,265.com",
         "DOMAIN-SUFFIX,apple.cn",
         "DOMAIN-SUFFIX,apple.com.cn",
         "DOMAIN-SUFFIX,apple-appstore.cn",
@@ -324,7 +345,9 @@
     },
     "preset-5": {
       "add": [],
-      "remove": [],
+      "remove": [
+        "DOMAIN-SUFFIX,shanghaidisneyresort.com"
+      ],
       "dropTypes": []
     },
     "preset-6": {
@@ -359,7 +382,9 @@
     },
     "preset-12": {
       "add": [],
-      "remove": [],
+      "remove": [
+        "DOMAIN-SUFFIX,265.com"
+      ],
       "dropTypes": []
     },
     "preset-13": {
@@ -438,7 +463,11 @@
     "preset-cn-ip": {
       "add": [],
       "remove": [],
-      "dropTypes": []
+      "dropTypes": [],
+      "resolveIp": true,
+      "excludeNetworks": [
+        "47.52.0.0/16"
+      ]
     }
   }
 }
