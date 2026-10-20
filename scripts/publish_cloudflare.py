@@ -24,6 +24,7 @@ import sync_rules as sync
 ROOT = Path(__file__).resolve().parents[1]
 HOST = re.compile(r'^subscription-studio-[a-f0-9]{12}\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.workers\.dev$')
 PINNED_TYPES = {'DOMAIN', 'DOMAIN-SUFFIX', 'PROCESS-NAME', 'PROCESS-PATH', 'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX'}
+PUBLISH_STAGE = 'setup'
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -191,12 +192,28 @@ def publish_result(result):
     return {'revision': result.get('revision'), 'changed': result.get('changed'), 'status': 'published'}
 
 
+def safe_failure(error, stage):
+    phases = {'setup', 'destination', 'sources', 'commit', 'identity', 'layout', 'compile', 'validate', 'publish'}
+    status = error.code if isinstance(error, urllib.error.HTTPError) else None
+    if isinstance(error, ValueError):
+        match = re.fullmatch(r'Cloudflare (?:layout request|publication) failed: HTTP ([1-5][0-9]{2}); previous subscription retained', str(error))
+        if match:
+            status = int(match[1])
+    return {'status': 'failed', 'stage': stage if stage in phases else 'setup', 'http_status': status if isinstance(status, int) and 100 <= status <= 599 else None, 'previous_subscription': 'retained'}
+
+
 def run(kernel, root=ROOT):
+    global PUBLISH_STAGE
+    PUBLISH_STAGE = 'destination'
     destination = private_destination()
+    PUBLISH_STAGE = 'sources'
     sources = load_sources(root)
+    PUBLISH_STAGE = 'commit'
     source_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
     committed_at = subprocess.check_output(['git', 'show', '-s', '--format=%cI', 'HEAD'], cwd=root, text=True).strip()
+    PUBLISH_STAGE = 'identity'
     token = oidc_token(destination)
+    PUBLISH_STAGE = 'layout'
     try:
         layout = request_json(destination + '/internal/rule-layout', token=token)
     except urllib.error.HTTPError as error:
@@ -220,8 +237,11 @@ def run(kernel, root=ROOT):
                 server_delta = None
             print(sync.compact({'worker_auth_response': expected_response, 'worker_auth_check': worker_check, 'server_clock_delta_seconds': server_delta}))
         raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
+    PUBLISH_STAGE = 'compile'
     publication, rules = compile_publication(layout, sources, source_commit, committed_at)
+    PUBLISH_STAGE = 'validate'
     validate_fragments(rules, layout, kernel)
+    PUBLISH_STAGE = 'publish'
     for attempt in range(3):
         try:
             result = request_json(destination + '/internal/rule-publish', method='POST', token=token, data=publication)
@@ -240,8 +260,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     try:
         run(args.mihomo)
-    except Exception:
+    except Exception as error:
         # Network and parser exceptions may include private addresses. Keep the
         # public failure message fixed; do not emit a traceback or error text.
-        print('Cloudflare publication failed; check the repository secret, service and workflow identity. Previous subscription retained.', file=sys.stderr)
+        print(json.dumps(safe_failure(error, PUBLISH_STAGE)), file=sys.stderr)
         raise SystemExit(1) from None

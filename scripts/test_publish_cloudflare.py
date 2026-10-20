@@ -62,6 +62,15 @@ class PublisherTests(unittest.TestCase):
         for private in [token, part, 'private-signature', 'private-credential-id', 'private-marker']:
             self.assertNotIn(private, diagnostic)
 
+    def test_failure_diagnostics_keep_only_fixed_phase_and_http_status(self):
+        private = 'https://private-worker.example/secret?token=private-fixture'
+        for error in [ValueError(private), publish.urllib.error.URLError(private), publish.urllib.error.HTTPError(private, 403, private, {}, None)]:
+            output = publish.safe_failure(error, 'layout')
+            self.assertNotIn(private, json.dumps(output))
+            self.assertEqual(output['stage'], 'layout')
+        self.assertEqual(publish.safe_failure(ValueError('Cloudflare publication failed: HTTP 409; previous subscription retained'), 'publish')['http_status'], 409)
+        self.assertEqual(publish.safe_failure(ValueError(private), private)['stage'], 'setup')
+
 
 if __name__ == '__main__':
     unittest.main()
