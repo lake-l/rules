@@ -208,10 +208,12 @@ def publish_failure_code(error):
         body = json.loads(error.read(4096))
         result = {'worker_publish_check': codes.get(body.get('error'), 'unavailable')}
         if result['worker_publish_check'] == 'rule_removal':
-            for key in ('actualCount', 'declaredCount', 'minimumCount'):
+            for key in ('actualCount', 'declaredCount', 'minimumCount', 'baselineCount'):
                 value = body.get(key)
                 if isinstance(value, int) and 0 <= value <= 1000000:
                     result[key] = value
+            if isinstance(body.get('priorTemplateMatched'), bool):
+                result['priorTemplateMatched'] = body['priorTemplateMatched']
             if body.get('presetId') in {'__pinned__', 'preset-cn-ip', 'preset-cn-services', 'preset-biliintl', *('preset-' + str(i) for i in range(16))}:
                 result['presetId'] = body['presetId']
         return result

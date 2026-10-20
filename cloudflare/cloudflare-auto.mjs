@@ -26,15 +26,18 @@ export async function handleAutomaticRules(request, env, authorize = authorizeGi
     if (!template?.enabled || template.schema !== 1 || !Array.isArray(template.slots)) return bad(409, 'Automatic publishing has not been enabled for this subscription');
     const current = await env.CONFIG.get('current', 'json');
     if (!current?.yaml || current.sha256 !== template.baseHash && current.automation?.templateId !== template.id) return bad(409, 'Configuration changed manually; re-enable automatic publishing for the new configuration');
+    // Slot numbers belong to one template. Rebinding the same exact YAML can
+    // retain an older publication record whose slot order is different.
+    const previousAutomation = current.automation?.templateId === template.id ? current.automation : null;
     if (path === '/internal/rule-layout') {
       // Return only managed rule IDs and policy labels. Private YAML, personal
       // rules, upstream URLs, nodes and DNS never leave Cloudflare for CI.
-      return reply(200, {schema: 1, templateId: template.id, revision: current.automation?.revision || template.baseRevision, slots: template.slots.map(({slotId, presetId, target}) => ({slotId, presetId, target}))});
+      return reply(200, {schema: 1, templateId: template.id, revision: previousAutomation?.revision || template.baseRevision, slots: template.slots.map(({slotId, presetId, target}) => ({slotId, presetId, target}))});
     }
     const body = await readBody(request);
     if (body.schema !== 1 || body.templateId !== template.id || !/^sync-[a-f0-9]{64}$/.test(body.revision || '') || !/^[a-f0-9]{40}$/.test(body.sourceCommit || '') || !Number.isFinite(Date.parse(body.sourceUpdatedAt)) || !Array.isArray(body.fragments) || body.fragments.length !== template.slots.length) return bad(422, 'Invalid rule publication');
-    const previousAt = Date.parse(current.automation?.sourceUpdatedAt || template.sourceUpdatedAt), nextAt = Date.parse(body.sourceUpdatedAt);
-    const previousRevision = current.automation?.revision || template.baseRevision;
+    const previousAt = Date.parse(previousAutomation?.sourceUpdatedAt || template.sourceUpdatedAt), nextAt = Date.parse(body.sourceUpdatedAt);
+    const previousRevision = previousAutomation?.revision || template.baseRevision;
     if (nextAt < previousAt || nextAt === previousAt && body.revision !== previousRevision) return bad(409, 'An older or conflicting rule snapshot cannot replace the current version');
     if (body.revision === previousRevision && current.automation?.templateId === template.id) return reply(200, {changed: false, sha256: current.sha256, revision: previousRevision});
     const fragments = new Map(), counts = {};
@@ -42,8 +45,8 @@ export async function handleAutomaticRules(request, env, authorize = authorizeGi
       const fragment = body.fragments.find(value => value.slotId === slot.slotId);
       if (!fragment || fragments.has(slot.slotId) || fragment.presetId !== slot.presetId || fragment.target !== slot.target || !Number.isInteger(fragment.count) || fragment.count < 1 || !validFragment(fragment.content)) return bad(422, 'Invalid managed rule fragment');
       const actualCount = fragment.content.match(/\n/g)?.length || 0;
-      const minimumCount = Math.floor((current.automation?.counts?.[slot.slotId] || slot.baselineCount) * 0.6);
-      if (actualCount !== fragment.count || actualCount < minimumCount) return reply(422, {error: 'Unexpected rule removal; previous subscription retained', actualCount, declaredCount: fragment.count, minimumCount, presetId: slot.presetId});
+      const minimumCount = Math.floor((previousAutomation?.counts?.[slot.slotId] || slot.baselineCount) * 0.6);
+      if (actualCount !== fragment.count || actualCount < minimumCount) return reply(422, {error: 'Unexpected rule removal; previous subscription retained', actualCount, declaredCount: fragment.count, minimumCount, presetId: slot.presetId, baselineCount: slot.baselineCount, priorTemplateMatched: Boolean(previousAutomation)});
       fragments.set(slot.slotId, fragment.content); counts[slot.slotId] = actualCount;
     }
     // A first activation on the same snapshot only records provenance; preserve
