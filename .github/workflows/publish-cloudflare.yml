@@ -1,0 +1,43 @@
+name: Publish rules to Cloudflare
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mihomo/studio-v1/snapshot.json'
+      - 'sync/pinned-direct.json'
+      - 'sync/cloudflare-destinations.json'
+      - 'scripts/publish_cloudflare.py'
+      - 'scripts/test_publish_cloudflare.py'
+      - '.github/workflows/publish-cloudflare.yml'
+  workflow_run:
+    workflows: ['Sync upstream rules']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: cloudflare-subscription-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Always build the latest main, including the sync job's bot commit.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Test publisher safeguards
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Prepare pinned Mihomo validator
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 -o "$RUNNER_TEMP/mihomo.gz" https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-linux-amd64-v1-v1.19.32.gz
+          echo "306f81e723e60ce6b828899a6fe83e1d00e9ecefb2dc8d4d849312a5bc00efdc  $RUNNER_TEMP/mihomo.gz" | sha256sum --check
+          gzip -d "$RUNNER_TEMP/mihomo.gz"
+          chmod +x "$RUNNER_TEMP/mihomo"
+      - name: Validate and publish managed rules using GitHub OIDC
+        run: python3 scripts/publish_cloudflare.py --mihomo "$RUNNER_TEMP/mihomo"
