@@ -5,7 +5,6 @@ on:
     paths:
       - 'mihomo/studio-v1/snapshot.json'
       - 'sync/pinned-direct.json'
-      - 'sync/cloudflare-destinations.json'
       - 'scripts/publish_cloudflare.py'
       - 'scripts/test_publish_cloudflare.py'
       - '.github/workflows/publish-cloudflare.yml'
@@ -40,4 +39,6 @@ jobs:
           gzip -d "$RUNNER_TEMP/mihomo.gz"
           chmod +x "$RUNNER_TEMP/mihomo"
       - name: Validate and publish managed rules using GitHub OIDC
+        env:
+          CLOUDFLARE_PUBLISH_ORIGIN: ${{ secrets.CLOUDFLARE_PUBLISH_ORIGIN }}
         run: python3 scripts/publish_cloudflare.py --mihomo "$RUNNER_TEMP/mihomo"

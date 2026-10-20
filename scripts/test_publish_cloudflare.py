@@ -41,6 +41,17 @@ class PublisherTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 publish.compile_publication(layout, sources, 'a' * 40, '2026-10-20T00:00:00+00:00')
 
+    def test_destination_is_private_and_required_and_logs_exclude_service_address(self):
+        address = 'https://subscription-studio-012345abcdef.private-fixture.workers.dev'
+        self.assertEqual(publish.private_destination({'CLOUDFLARE_PUBLISH_ORIGIN': address}), address)
+        for environment in [{}, {'CLOUDFLARE_PUBLISH_ORIGIN': ''}, {'CLOUDFLARE_PUBLISH_ORIGIN': address + '?token=forbidden'}, {'CLOUDFLARE_PUBLISH_ORIGIN': 'https://untrusted.example'}]:
+            with self.assertRaises(ValueError):
+                publish.private_destination(environment)
+        result = publish.publish_result({'changed': True, 'revision': 'sync-test', 'url': address, 'yaml': 'private-fixture'})
+        self.assertEqual(result, {'changed': True, 'revision': 'sync-test', 'status': 'published'})
+        self.assertNotIn(address, json.dumps(result))
+        self.assertNotIn('private-fixture', json.dumps(result))
+
     def test_identity_diagnostics_exclude_credentials_and_unlisted_claims(self):
         claims = {'repository': 'lake-l/rules', 'ref': 'refs/heads/main', 'jti': 'private-credential-id', 'unlisted': 'private-marker'}
         part = base64.urlsafe_b64encode(json.dumps(claims).encode()).decode().rstrip('=')

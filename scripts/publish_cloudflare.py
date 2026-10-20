@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import time
 import urllib.error
@@ -178,55 +179,69 @@ def validate_fragments(rules, layout, kernel):
             raise ValueError('Mihomo rejected public rule fragments; no subscription was published')
 
 
+def private_destination(environment=None):
+    value = (os.environ if environment is None else environment).get('CLOUDFLARE_PUBLISH_ORIGIN', '').strip()
+    if not value:
+        raise ValueError('CLOUDFLARE_PUBLISH_ORIGIN repository secret is required')
+    return origin(value)
+
+
+def publish_result(result):
+    # A private deployment address must never be included in public logs.
+    return {'revision': result.get('revision'), 'changed': result.get('changed'), 'status': 'published'}
+
+
 def run(kernel, root=ROOT):
-    destinations = json.loads((root / 'sync/cloudflare-destinations.json').read_text(encoding='utf-8'))
-    if destinations.get('schema') != 1 or not isinstance(destinations.get('destinations'), list):
-        raise ValueError('Invalid destination list')
+    destination = private_destination()
     sources = load_sources(root)
     source_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
     committed_at = subprocess.check_output(['git', 'show', '-s', '--format=%cI', 'HEAD'], cwd=root, text=True).strip()
-    for value in destinations['destinations']:
-        destination = origin(value)
-        token = oidc_token(destination)
-        try:
-            layout = request_json(destination + '/internal/rule-layout', token=token)
-        except urllib.error.HTTPError as error:
-            if error.code == 401:
-                # These fields describe this public repository and workflow;
-                # neither the signed bearer credential nor private YAML is logged.
-                print(sync.compact({'public_workflow_identity': public_identity_diagnostics(token, destination)}))
-                print(sync.compact({'public_signing_key': public_key_diagnostics(token)}))
-                try:
-                    response = json.loads(error.read(4096))
-                    expected_response = response.get('error') == 'GitHub workflow authentication required'
-                    worker_check = response.get('code')
-                    if worker_check not in ('token', 'jwt_decode', 'jwt_header', 'identity', 'identity_time', 'jwks_signal', 'jwks_fetch', 'jwks_receiver', 'jwks_timeout', 'jwks_redirect', 'jwks_type', 'jwks_http', 'jwks_document', 'signing_key', 'jwk_import', 'signature'):
-                        worker_check = 'unavailable'
-                except (ValueError, TypeError):
-                    expected_response = False
-                    worker_check = 'unavailable'
-                try:
-                    server_delta = int(email.utils.parsedate_to_datetime(error.headers['Date']).timestamp() - time.time())
-                except (ValueError, TypeError, KeyError):
-                    server_delta = None
-                print(sync.compact({'worker_auth_response': expected_response, 'worker_auth_check': worker_check, 'server_clock_delta_seconds': server_delta}))
-            raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
-        publication, rules = compile_publication(layout, sources, source_commit, committed_at)
-        validate_fragments(rules, layout, kernel)
-        for attempt in range(3):
+    token = oidc_token(destination)
+    try:
+        layout = request_json(destination + '/internal/rule-layout', token=token)
+    except urllib.error.HTTPError as error:
+        if error.code == 401:
+            # These fields describe this public repository and workflow;
+            # neither the signed bearer credential nor private YAML is logged.
+            print(sync.compact({'public_workflow_identity': public_identity_diagnostics(token, destination)}))
+            print(sync.compact({'public_signing_key': public_key_diagnostics(token)}))
             try:
-                result = request_json(destination + '/internal/rule-publish', method='POST', token=token, data=publication)
-                break
-            except urllib.error.HTTPError as error:
-                if error.code not in (429, 502, 503, 504) or attempt == 2:
-                    raise ValueError(f'Cloudflare publication failed: HTTP {error.code}; previous subscription retained') from None
-                time.sleep(2 ** (attempt + 1))
-        # Never print the OIDC token, layout, configuration or request body.
-        print(json.dumps({'destination': destination, 'revision': result.get('revision'), 'changed': result.get('changed'), 'status': 'published'}, ensure_ascii=False))
+                response = json.loads(error.read(4096))
+                expected_response = response.get('error') == 'GitHub workflow authentication required'
+                worker_check = response.get('code')
+                if worker_check not in ('token', 'jwt_decode', 'jwt_header', 'identity', 'identity_time', 'jwks_signal', 'jwks_fetch', 'jwks_receiver', 'jwks_timeout', 'jwks_redirect', 'jwks_type', 'jwks_http', 'jwks_document', 'signing_key', 'jwk_import', 'signature'):
+                    worker_check = 'unavailable'
+            except (ValueError, TypeError):
+                expected_response = False
+                worker_check = 'unavailable'
+            try:
+                server_delta = int(email.utils.parsedate_to_datetime(error.headers['Date']).timestamp() - time.time())
+            except (ValueError, TypeError, KeyError):
+                server_delta = None
+            print(sync.compact({'worker_auth_response': expected_response, 'worker_auth_check': worker_check, 'server_clock_delta_seconds': server_delta}))
+        raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
+    publication, rules = compile_publication(layout, sources, source_commit, committed_at)
+    validate_fragments(rules, layout, kernel)
+    for attempt in range(3):
+        try:
+            result = request_json(destination + '/internal/rule-publish', method='POST', token=token, data=publication)
+            break
+        except urllib.error.HTTPError as error:
+            if error.code not in (429, 502, 503, 504) or attempt == 2:
+                raise ValueError(f'Cloudflare publication failed: HTTP {error.code}; previous subscription retained') from None
+            time.sleep(2 ** (attempt + 1))
+    # Never print the OIDC token, layout, configuration or request body.
+    print(json.dumps(publish_result(result), ensure_ascii=False))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--mihomo', type=Path, required=True)
     args = parser.parse_args()
-    run(args.mihomo)
+    try:
+        run(args.mihomo)
+    except Exception:
+        # Network and parser exceptions may include private addresses. Keep the
+        # public failure message fixed; do not emit a traceback or error text.
+        print('Cloudflare publication failed; check the repository secret, service and workflow identity. Previous subscription retained.', file=sys.stderr)
+        raise SystemExit(1) from None

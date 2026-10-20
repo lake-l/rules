@@ -2,7 +2,7 @@
 
 `publish-cloudflare.yml` 将经过 Mihomo 校验的公开规则片段发给已登记的 Cloudflare Worker。main 的规则快照更新、固定直连规则更新、每日同步成功或手动运行会触发发布。
 
-`cloudflare-destinations.json` 只保存公开 Worker origin，不包含路径或查询参数。禁止提交机场订阅地址、订阅访问密钥、Cloudflare API Token、完整配置或迁移模板。
+Worker origin 只保存在本仓库 Actions 的加密 Secret `CLOUDFLARE_PUBLISH_ORIGIN`，不写入公开文件或运行日志。值只能是 `https://主机.workers.dev`，不能带路径或查询参数；未设置时工作流报错并保留原订阅。禁止提交机场订阅地址、订阅访问密钥、Cloudflare API Token、完整配置或迁移模板。
 
 工作流使用 GitHub OIDC 短期身份，无需设置 Cloudflare 管理密钥。Worker 校验签名、仓库与所有者数字 ID、main 分支、指定工作流、受众及有效期。GitHub 只收到受管理预设的标识与策略组名称；节点、机场地址、DNS、个人规则和完整配置保留在账号自己的 KV。
 
