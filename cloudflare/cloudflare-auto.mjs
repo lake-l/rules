@@ -18,7 +18,8 @@ const validFragment = content => {
 export async function handleAutomaticRules(request, env, authorize = authorizeGitHub) {
   const path = new URL(request.url).pathname;
   if (!['/internal/rule-layout', '/internal/rule-publish'].includes(path)) return null;
-  if (!await authorize(request)) return bad(401, 'GitHub workflow authentication required');
+  let failureCode = 'identity';
+  if (!await authorize(request, {onFailure: code => failureCode = code})) return reply(401, {error: 'GitHub workflow authentication required', code: failureCode});
   if (path === '/internal/rule-layout' && request.method !== 'GET' || path === '/internal/rule-publish' && request.method !== 'POST') return bad(405, 'Method not allowed');
   try {
     const template = await env.CONFIG.get('automation-template', 'json');

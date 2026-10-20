@@ -199,13 +199,17 @@ def run(kernel, root=ROOT):
                 try:
                     response = json.loads(error.read(4096))
                     expected_response = response.get('error') == 'GitHub workflow authentication required'
+                    worker_check = response.get('code')
+                    if worker_check not in ('token', 'jwt_decode', 'jwt_header', 'identity', 'identity_time', 'jwks_fetch', 'jwks_http', 'jwks_document', 'signing_key', 'jwk_import', 'signature'):
+                        worker_check = 'unavailable'
                 except (ValueError, TypeError):
                     expected_response = False
+                    worker_check = 'unavailable'
                 try:
                     server_delta = int(email.utils.parsedate_to_datetime(error.headers['Date']).timestamp() - time.time())
                 except (ValueError, TypeError, KeyError):
                     server_delta = None
-                print(sync.compact({'worker_auth_response': expected_response, 'server_clock_delta_seconds': server_delta}))
+                print(sync.compact({'worker_auth_response': expected_response, 'worker_auth_check': worker_check, 'server_clock_delta_seconds': server_delta}))
             raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
         publication, rules = compile_publication(layout, sources, source_commit, committed_at)
         validate_fragments(rules, layout, kernel)
