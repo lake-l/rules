@@ -72,7 +72,7 @@ class PublisherTests(unittest.TestCase):
         self.assertEqual(publish.safe_failure(ValueError('Cloudflare publication failed: HTTP 409; previous subscription retained'), 'publish')['http_status'], 409)
         self.assertEqual(publish.safe_failure(ValueError(private), private)['stage'], 'setup')
         error = publish.urllib.error.HTTPError(private, 422, private, {}, io.BytesIO(json.dumps({'error': private}).encode()))
-        self.assertEqual(publish.publish_failure_code(error), 'unavailable')
+        self.assertEqual(publish.publish_failure_code(error), {'worker_publish_check': 'unavailable'})
 
 
 if __name__ == '__main__':

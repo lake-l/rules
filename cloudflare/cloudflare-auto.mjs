@@ -42,7 +42,8 @@ export async function handleAutomaticRules(request, env, authorize = authorizeGi
       const fragment = body.fragments.find(value => value.slotId === slot.slotId);
       if (!fragment || fragments.has(slot.slotId) || fragment.presetId !== slot.presetId || fragment.target !== slot.target || !Number.isInteger(fragment.count) || fragment.count < 1 || !validFragment(fragment.content)) return bad(422, 'Invalid managed rule fragment');
       const actualCount = fragment.content.match(/\n/g)?.length || 0;
-      if (actualCount !== fragment.count || actualCount < Math.floor((current.automation?.counts?.[slot.slotId] || slot.baselineCount) * 0.6)) return bad(422, 'Unexpected rule removal; previous subscription retained');
+      const minimumCount = Math.floor((current.automation?.counts?.[slot.slotId] || slot.baselineCount) * 0.6);
+      if (actualCount !== fragment.count || actualCount < minimumCount) return reply(422, {error: 'Unexpected rule removal; previous subscription retained', actualCount, declaredCount: fragment.count, minimumCount, presetId: slot.presetId});
       fragments.set(slot.slotId, fragment.content); counts[slot.slotId] = actualCount;
     }
     // A first activation on the same snapshot only records provenance; preserve

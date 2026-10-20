@@ -205,9 +205,18 @@ def safe_failure(error, stage):
 def publish_failure_code(error):
     codes = {'Invalid rule publication': 'publication', 'Invalid managed rule fragment': 'fragment', 'Unexpected rule removal; previous subscription retained': 'rule_removal', 'Generated subscription exceeds 8 MB': 'size', 'An older or conflicting rule snapshot cannot replace the current version': 'stale', 'Subscription changed during publication; retry with the latest layout': 'concurrent_change'}
     try:
-        return codes.get(json.loads(error.read(4096)).get('error'), 'unavailable')
+        body = json.loads(error.read(4096))
+        result = {'worker_publish_check': codes.get(body.get('error'), 'unavailable')}
+        if result['worker_publish_check'] == 'rule_removal':
+            for key in ('actualCount', 'declaredCount', 'minimumCount'):
+                value = body.get(key)
+                if isinstance(value, int) and 0 <= value <= 1000000:
+                    result[key] = value
+            if body.get('presetId') in {'__pinned__', 'preset-cn-ip', 'preset-cn-services', 'preset-biliintl', *('preset-' + str(i) for i in range(16))}:
+                result['presetId'] = body['presetId']
+        return result
     except (ValueError, TypeError, AttributeError):
-        return 'unavailable'
+        return {'worker_publish_check': 'unavailable'}
 
 
 def run(kernel, root=ROOT):
@@ -256,7 +265,7 @@ def run(kernel, root=ROOT):
             break
         except urllib.error.HTTPError as error:
             if error.code not in (429, 502, 503, 504) or attempt == 2:
-                print(json.dumps({'worker_publish_check': publish_failure_code(error)}))
+                print(json.dumps(publish_failure_code(error)))
                 raise ValueError(f'Cloudflare publication failed: HTTP {error.code}; previous subscription retained') from None
             time.sleep(2 ** (attempt + 1))
     # Never print the OIDC token, layout, configuration or request body.
