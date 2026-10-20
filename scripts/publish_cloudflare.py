@@ -4,6 +4,7 @@ The workflow never receives subscription YAML, nodes, provider URLs, DNS,
 personal rules, the subscription access key, or a Cloudflare API token.
 """
 import argparse
+import base64
 import datetime as dt
 import hashlib
 import json
@@ -64,6 +65,22 @@ def oidc_token(destination):
     if not isinstance(value, str) or value.count('.') != 2:
         raise ValueError('GitHub did not issue an OIDC token')
     return value
+
+
+def public_identity_diagnostics(token, destination=''):
+    """Log comparison results only, never credentials or arbitrary claim values."""
+    try:
+        part = token.split('.')[1]
+        claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
+        expected = {'iss': 'https://token.actions.githubusercontent.com', 'aud': destination + '/internal/rule-publish', 'repository': 'lake-l/rules', 'repository_id': '1364393721', 'repository_owner_id': '191877580', 'workflow_ref': 'lake-l/rules/.github/workflows/publish-cloudflare.yml@refs/heads/main', 'ref': 'refs/heads/main'}
+        checks = {key: str(claims.get(key)) == value for key, value in expected.items()}
+        checks['event_name'] = claims.get('event_name') in ('push', 'workflow_run', 'workflow_dispatch')
+        checks['sub'] = claims.get('sub') in ('repo:lake-l/rules:ref:refs/heads/main', 'repo:lake-l@191877580/rules@1364393721:ref:refs/heads/main')
+        now = int(time.time())
+        deltas = {key: claims[key] - now if isinstance(claims.get(key), (int, float)) else None for key in ('iat', 'nbf', 'exp')}
+        return {'matches': checks, 'seconds_from_now': deltas}
+    except (ValueError, IndexError, TypeError):
+        return {'metadata': 'unavailable'}
 
 
 def load_sources(root=ROOT):
@@ -150,7 +167,14 @@ def run(kernel, root=ROOT):
     for value in destinations['destinations']:
         destination = origin(value)
         token = oidc_token(destination)
-        layout = request_json(destination + '/internal/rule-layout', token=token)
+        try:
+            layout = request_json(destination + '/internal/rule-layout', token=token)
+        except urllib.error.HTTPError as error:
+            if error.code == 401:
+                # These fields describe this public repository and workflow;
+                # neither the signed bearer credential nor private YAML is logged.
+                print(sync.compact({'public_workflow_identity': public_identity_diagnostics(token, destination)}))
+            raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
         publication, rules = compile_publication(layout, sources, source_commit, committed_at)
         validate_fragments(rules, layout, kernel)
         for attempt in range(3):

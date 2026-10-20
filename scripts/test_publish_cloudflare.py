@@ -1,4 +1,5 @@
 import copy
+import base64
 import json
 import unittest
 import publish_cloudflare as publish
@@ -39,6 +40,15 @@ class PublisherTests(unittest.TestCase):
             modify(layout)
             with self.assertRaises(ValueError):
                 publish.compile_publication(layout, sources, 'a' * 40, '2026-10-20T00:00:00+00:00')
+
+    def test_identity_diagnostics_exclude_credentials_and_unlisted_claims(self):
+        claims = {'repository': 'lake-l/rules', 'ref': 'refs/heads/main', 'jti': 'private-credential-id', 'unlisted': 'private-marker'}
+        part = base64.urlsafe_b64encode(json.dumps(claims).encode()).decode().rstrip('=')
+        token = 'header.' + part + '.private-signature'
+        diagnostic = json.dumps(publish.public_identity_diagnostics(token))
+        self.assertTrue(publish.public_identity_diagnostics(token)['matches']['repository'])
+        for private in [token, part, 'private-signature', 'private-credential-id', 'private-marker']:
+            self.assertNotIn(private, diagnostic)
 
 
 if __name__ == '__main__':
