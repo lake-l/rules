@@ -44,7 +44,8 @@ class PublisherTests(unittest.TestCase):
     def test_identity_diagnostics_exclude_credentials_and_unlisted_claims(self):
         claims = {'repository': 'lake-l/rules', 'ref': 'refs/heads/main', 'jti': 'private-credential-id', 'unlisted': 'private-marker'}
         part = base64.urlsafe_b64encode(json.dumps(claims).encode()).decode().rstrip('=')
-        token = 'header.' + part + '.private-signature'
+        header = base64.urlsafe_b64encode(json.dumps({'alg': 'RS256', 'kid': 'public-key'}).encode()).decode().rstrip('=')
+        token = header + '.' + part + '.private-signature'
         diagnostic = json.dumps(publish.public_identity_diagnostics(token))
         self.assertTrue(publish.public_identity_diagnostics(token)['matches']['repository'])
         for private in [token, part, 'private-signature', 'private-credential-id', 'private-marker']:
