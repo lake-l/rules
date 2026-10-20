@@ -1,0 +1,400 @@
+订阅规则修改交接指南
+适用对象：接手此项目的智能体和维护人员
+核对日期：2026年10月20日
+使用方式：可在任意电脑或终端接手，不依赖原作者的磁盘、用户名、本机目录或已安装的订阅工坊。
+
+一、先读这部分
+
+用户希望：指定网站或软件的规则修改后，同步到自己的 GitHub，由现有自动流程更新 Cloudflare；各设备点击原订阅的“更新”即可生效，订阅链接保持不变。
+
+日常修改的是公开规则，不需要取得机场订阅链接、节点密码、完整 YAML 或 Cloudflare API Token。不要为了改一条公开规则，要求用户把这些机密发到聊天、上传 GitHub 或重新发布完整配置。
+
+公开规则仓库：https://github.com/lake-l/rules
+指南在线地址：https://github.com/lake-l/rules/blob/main/docs/rule-maintenance-guide.txt
+指南原文地址：https://raw.githubusercontent.com/lake-l/rules/main/docs/rule-maintenance-guide.txt
+生效分支：main
+本指南核对的 main 提交：c167d7463382ba176f95dbcfbc2add89a1c3d907
+这个提交号只说明本次核对基准；以后操作必须读取当时最新的 main，不要重置到这里。
+
+最快的判断方法：
+1. “某域名及全部子域名必须直连”——修改 sync/pinned-direct.json。
+2. “把网站归入 AI、开发工具、国内网站等分类”——修改 sync/overrides.json，并检查更早分类的冲突。
+3. “改某策略组使用哪个节点，或修改 DNS、节点、订阅来源、个人私密规则”——在本机私有配置中修改，不能通过公开规则仓库完成。
+4. “修改当前本机 YAML”——只改私有文件，未重新发布不会自动进入 Cloudflare；发布完整 YAML 后还要重新绑定规则自动联动。
+
+本指南是操作说明，不代替用户当前请求。仅要求写文档或本机修改时，不自行推送或发布；用户要求同步规则时，按已授权范围完成验证与发布。
+
+二、在任意终端获取规则仓库
+
+本指南里的 sync/、scripts/、mihomo/ 和 .github/ 路径，一律相对于 lake-l/rules 的仓库根目录。仓库放在哪个磁盘、目录叫什么都不影响操作。
+
+没有现成 checkout 时，在终端可写目录执行：
+  git clone --branch main https://github.com/lake-l/rules.git rules
+  cd rules
+
+上例 rules 只是本次克隆的目录名，可以自行更换；目标目录已存在时先核对内容，不覆盖。
+公开仓库可以直接读取和克隆；推送需要当前终端具备用户授权的 GitHub 写权限。
+
+使用已有 checkout 时，进入它的根目录并核对：
+  git rev-parse --show-toplevel
+  git remote get-url origin
+  git status --short
+
+origin 必须对应 lake-l/rules；有他人的未提交修改时保留这些修改。不要在上层工作区或混有私有文件的目录执行 git add . 或 git add -A。
+如果只有下载或复制的文件镜像，不能假定它就是 Git 仓库；git 可能向上找到不相关的 .git。需要推送时使用核对过的 checkout。
+
+没有终端 Git 但有 GitHub 连接器时，也可从上述仓库读取最新文件并提交明确的公开改动；生成与验证仍需在具备 Python/Mihomo 的可用执行环境完成，不能把“可以在线编辑”当成“已通过测试”。
+普通公开规则修改不需要原电脑上的工具源码、EXE、备份或私有订阅文件。
+
+在真实规则仓库中，相对路径及用途如下：
+
+sync/pinned-direct.json
+  置顶强制直连规则。每项是带 DIRECT 出口的完整规则。
+  可用于用户明确要求始终直连的公开域名、进程或路径。
+
+sync/overrides.json
+  每组的持久补充、精确排除及特殊处理。普通分类修正优先改这里。
+  每次上游同步都会重新应用，避免手工修正被上游覆盖。
+
+sync/sources.json
+  公共上游 URL、规则格式、分组 ID、默认分类出口、排列顺序及数量基准。
+  只在确需调整来源或分组结构时修改；普通加域名不用改它。
+
+sync/regressions.json
+  域名或 IP → 预期分类名称的回归样例。
+  验证普通分类与先后顺序，不包含置顶直连段，也不验证真实节点连通性。
+
+scripts/sync_rules.py
+  读取来源和 overrides，做分类、排除、数量和回归检查，再生成规则文件。
+  支持 --mihomo 和 --cache-dir；没有 --dry-run。
+
+scripts/test_sync_rules.py
+  同步逻辑及路由保护测试。
+
+scripts/publish_cloudflare.py
+  读取公开快照、置顶直连及 Cloudflare 返回的受管理槽位，校验后发布公开规则片段。
+  普通规则修改不要改它，也不要把它当成本机 API Token 发布脚本。
+
+scripts/test_publish_cloudflare.py
+  发布格式、目标、身份与日志隐私保护测试。
+
+mihomo/studio-v1/preset-*.yaml
+  自动生成的 classical YAML 规则集。不要只改这些文件作为持久修正。
+
+mihomo/studio-v1/snapshot.json
+  自动生成的完整公开规则快照，包含内容校验版本。
+  Cloudflare 发布器和工坊“获取最新规则”读取它。
+
+mihomo/studio-v1/sync-status.json
+  自动生成的同步状态、来源及数量记录。
+
+mihomo/studio-v1/custom-*.yaml
+  导出时产生的自定义规则文件，不由上游同步脚本重写。
+  只有客户端配置实际引用了该文件，更新它才对那个客户端有效；不能假设它会进入已托管的完整内嵌配置。
+  不删除仍被旧配置引用的文件；其中的个人域名/IP 也可能属于机密。
+
+.github/workflows/sync-rules.yml
+  Actions 名称 Sync upstream rules，生成并提交公开规则输出。
+
+.github/workflows/publish-cloudflare.yml
+  Actions 名称 Publish rules to Cloudflare，向原 Worker 发布公开规则。
+
+sync/CLOUDFLARE.md 与 sync/README.md
+  仓库内的自动发布及上游同步说明，应与最新实现一起阅读。
+
+三、常用分组对应表
+
+下面是本次核对的分组 ID → 名称 → 默认分类出口：
+
+preset-0             局域网             局域网
+preset-1             广告与跟踪拦截     广告与跟踪拦截
+preset-biliintl       B站国际版          其他海外媒体
+preset-cn-services   国内服务与下载     国内网站
+preset-2             AI 服务            AI 服务
+preset-3             YouTube            YouTube
+preset-4             Netflix            Netflix
+preset-5             Disney+            Disney+
+preset-6             Telegram           Telegram
+preset-7             社交平台           社交平台
+preset-8             OneDrive           OneDrive
+preset-9             开发工具           开发工具
+preset-10            游戏平台           游戏平台
+preset-11            其他海外媒体       其他海外媒体
+preset-12            Google 服务        Google 服务
+preset-13            Microsoft 服务     Microsoft 服务
+preset-14            Apple 服务         Apple 服务
+preset-15            国内网站           国内网站
+preset-cn-ip         国内 IP 兜底       国内网站
+
+实际顺序以最新 sources.json 的 groups 和私有配置模板中的规则顺序为准。
+“国内网站”等是策略组名，不等于写死 DIRECT；用户可以在客户端切换该组。
+公开分类更新保留原模板槽位的出口。修改 sources.json 的 target 不会自动改掉现有私有模板或客户端的节点选择。
+
+四、示例一 让域名及全部子域名强制直连
+
+下面只使用示例域名 example.org，不是在要求真实修改。
+
+在 sync/pinned-direct.json 的现有 JSON 数组中增加一项：
+  "DOMAIN-SUFFIX,example.org,DIRECT"
+
+含义：example.org、www.example.org、api.example.org 等都走 DIRECT。
+不会匹配 example.org.attacker.test 或 another-example.org。
+如果只要求 api.example.org 这个主机，使用：
+  "DOMAIN,api.example.org,DIRECT"
+
+保留原有规则，不重复添加，不把整个数组替换成这一项。
+当前置顶规则只允许受支持的域名、进程和进程路径类型，且必须以 ,DIRECT 结尾；IP-CIDR 不在当前置顶发布器允许类型中。不要为了塞入不支持类型而随意放宽发布器校验。
+
+现有 __pinned__ 槽位位于普通规则之前，适用于明确要求强制直连的公开例外。
+这类修改不需要重新计算 snapshot.json；发布版本同时计算快照和 pinned-direct 的内容。
+在 scripts/test_publish_cloudflare.py 为新条目补充断言，核对父域、子域、相似域名和完整发布规则中的位置；需要时用真实 Mihomo 验证。
+sync/regressions.json 不会检查置顶规则，不能只往那里写一条“DIRECT”就当验证完成。
+
+五、示例二 调整普通业务分类或修复广告误拦
+
+例如要把公开域名 example.org 归入“开发工具”，在 sync/overrides.json 的 groups.preset-9.add 中添加：
+  "DOMAIN-SUFFIX,example.org"
+
+注意：overrides 的普通规则只写匹配条件，不附加 ,DIRECT、,开发工具 等策略出口。
+错误示例：
+  "DOMAIN-SUFFIX,example.org,DIRECT"
+上述完整规则格式只适用于 pinned-direct.json，不能混用。
+
+如果它原先被较早的广告组拦截，应同时在 groups.preset-1.remove 中排除真正冲突的原条目，例如：
+  "DOMAIN-SUFFIX,example.org"
+若上游同时有精确主机条目，也要检查是否需要排除：
+  "DOMAIN,example.org"
+
+remove 按完整字符串精确排除，并不是“排除这个域名的一切写法”。
+若冲突来自更宽的父域、关键词、共享 CDN 或进程规则，要检查真实命中条件后缩小修正范围；不能为修一个主机就放行整片共享域名。
+
+add 放在该分组上游规则之前；分组之间仍按既有顺序先匹配生效。
+dropTypes 过滤该组上游规则类型，在 add 之前执行；不要把它理解为全局过滤。
+被加入后面的组，并不能自动胜过前面已经命中的分类。
+
+给 sync/regressions.json 补充正例和边界反例，例如：
+  "example.org": "开发工具"
+  "api.example.org": "开发工具"
+  "example.org.attacker.test": "默认代理"
+
+这里的“默认代理”只表示该回归模拟器没有匹配到公开分类；不是对真实客户端最终路由的保证，真实客户端可能有个人例外或 IP 兜底。
+
+保留 preset-cn-ip 的现有 resolveIp、excludeNetworks 及回归保护。国内 IP 兜底、其他 IP 规则和域名分类是不同层次；不要全局删除 no-resolve，也不要用国内网段推断某域名一定直连。
+
+六、修改和发布的完整顺序
+
+1. 明确用户要求的对象、匹配范围和出口。
+   区分“仅主机”“父域含全部子域”“某进程”，以及“固定 DIRECT”与“归入某个可切换组”。
+   一般只需域名或程序名，不需要用户的真实订阅链接。
+
+2. 从最新 main 准备真实 checkout；保留其他人的修改。
+   使用分支时按本项目约定命名，例如 codex/update-routing-example。
+   同时检查最新工作流、来源文件与已有测试；不要仅依赖复制的文件镜像或本指南的历史提交号。
+
+3. 修改持久输入和针对性回归。
+   强制直连改 pinned-direct；分类改 overrides；来源结构确有需要才改 sources。
+   不改原订阅地址、Worker 名称、KV、访问密钥或 OIDC 身份范围。
+
+4. 普通分类修改先在本地重新生成整套输出，再运行测试。
+   先准备 Python 3 和与当前工作流一致版本的 Mihomo。无需安装订阅工坊，也无需从原电脑复制 mihomo.exe。
+   Python 命令可能是 python 或 python3，先在当前终端确认可用。
+
+   本次核对的工作流使用 Mihomo v1.19.32。版本以当时仓库工作流为准，不盲目升级或降级。
+   官方对应版本下载页：
+   https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32
+   选择当前操作系统和 CPU 架构的资源，解压到自己选择的工具目录。
+   例如 Windows x64 可用 mihomo-windows-amd64-v1-v1.19.32.zip；
+   Linux x64 可用 mihomo-linux-amd64-v1-v1.19.32.gz。
+   Linux 解压后需给可执行文件执行权限；GitHub Actions 的固定 Linux 下载与校验命令可参考仓库工作流。
+   工具二进制放在 checkout 外，或确认不会被加入提交。
+
+   将 Mihomo 加入当前终端 PATH 后，在规则仓库根目录执行下面对应系统的命令。
+
+   Windows PowerShell：
+     $MihomoPath = (Get-Command mihomo.exe -ErrorAction Stop).Source
+     python scripts/sync_rules.py --mihomo $MihomoPath
+     python -m unittest discover -s scripts -p "test_*.py"
+
+   Linux/macOS shell：
+     MIHOMO_PATH="$(command -v mihomo)"
+     # 确认可执行文件存在后，再执行：
+     python3 scripts/sync_rules.py --mihomo "$MIHOMO_PATH"
+     python3 -m unittest discover -s scripts -p 'test_*.py'
+
+   如果没有加入 PATH，把对应变量设为当前终端解压得到的实际可执行文件路径；不要照抄任何别人的绝对路径。
+   若找不到可执行文件或架构不匹配，先解决依赖，不继续执行生成命令。
+   没有可用校验环境时明确说明验证尚未完成，不借用原电脑的路径或宣称已通过。
+
+   sync_rules.py 会下载配置在 sources 中的公开上游，并写入生成文件；它不是只读检查。
+   如果使用 --cache-dir，缓存必须是对应的公共上游源文件，不能拿完整私有配置当输入。
+
+   当前 Sync upstream rules 工作流先运行单元测试，再生成输出；其中有测试直接检查已有 snapshot。
+   因此同时增加回归样例时，不要只提交新 overrides/regressions 而留下旧 snapshot，否则工作流可能在生成之前就失败。
+   应将通过校验的持久输入、相关测试和一致的生成结果放在同一次提交中。
+   仅修改 pinned-direct 时可以跳过上游重新生成，但仍运行发布器及同步单元测试。
+
+5. 审查差异后按明确文件列表暂存。
+   普通分类修正通常包含：
+     sync/overrides.json
+     sync/regressions.json
+     必要的 scripts/test_*.py
+     mihomo/studio-v1/preset-*.yaml 中实际变化的文件
+     mihomo/studio-v1/snapshot.json
+     mihomo/studio-v1/sync-status.json
+   强制直连通常包含：
+     sync/pinned-direct.json
+     必要的 scripts/test_publish_cloudflare.py
+   sources、工作流、发布器只有确实修改时才加入；不能为了触发 Actions 随便改它们。
+
+   用 git diff --stat、git diff 和 git diff --cached 检查最终内容。
+   使用 git add -- 后跟明确路径；禁止把工具二进制、下载目录、私有文件或整个上层工作区加入公开仓库。
+   不要因为生成结果有大幅变化，就提高数量阈值、删除回归或关闭 Mihomo 校验。
+
+6. 用户要求同步发布时，把已验证的修改提交并按授权合入 main。
+   仅推送到其他分支或只创建 PR，不会更新现有订阅。
+   合入前若 main 有新提交，先合并最新改动并重新验证，不能覆盖别人的更新。
+   可以使用 GitHub 连接器提交明确的公开文件；不要求必须在本机使用 git。
+
+7. 等待 Actions 完成，不能只看“提交成功”。
+   sync/** 或 scripts/** 更新会触发 Sync upstream rules。
+   main 的 snapshot.json、pinned-direct.json 及指定发布文件变更会触发 Publish rules to Cloudflare。
+   Sync upstream rules 成功结束也会通过 workflow_run 触发发布，以覆盖机器人提交不再触发普通 push 工作流的情况。
+   以当时实际工作流触发条件为准；只有 docs 或单个 preset YAML 更新，不一定触发所需的完整链路。
+
+8. 核对最终发布记录。
+   记录修改提交号、同步生成提交号（若产生）及发布工作流链接，确认处理的是最新 main。
+   成功输出只需状态、revision、changed 等脱敏字段。changed=false 表示没有新的有效片段变化；不能仅凭这一个值判断用户要求已经实现，应核对预期规则已在最终版本中。
+   普通公开规则更新不需要再打开本机工具、再次填写 API Token 或手动发布完整 YAML。
+
+9. 告诉用户在客户端更新原订阅。
+   更新的是完整 Cloudflare 订阅时，点击客户端“更新订阅/远程配置”；只刷新独立 rule-provider 不一定会重下载完整内嵌配置。
+   旧连接可能继续沿用原路由，需要断开重连。云端 KV 同步也可能有延迟。
+   没有进行真实客户端联网测试，就不要把静态匹配和内核语法通过描述为“所有网站都已正常连接”。
+
+七、现有 Cloudflare 联动如何工作
+
+流程：
+用户提出规则要求
+  → 修改公开持久输入和测试
+  → 生成并校验公开快照
+  → 合入 GitHub main
+  → Actions 校验公开规则并取得短期 OIDC 身份
+  → 原 Cloudflare Worker 合并受管理规则片段到私有配置
+  → 设备更新原订阅链接
+
+GitHub 当前只获取受管理规则的槽位、预设标识和策略组名称；公开规则片段的发布不需要读取完整私有 YAML。
+节点、上游订阅 URL、DNS、个人规则和完整配置留在用户的 Cloudflare 私有 KV。
+修改过而未被识别的预设块按原文保留；禁用块不会凭公共更新重新加入。
+如果新规则所属块没有受管理槽位，公开仓库改好了也不会自动强行修改该私有块，需要本机核对或重新绑定。
+
+Worker origin 存于 Actions 加密 Secret，名称：
+  CLOUDFLARE_PUBLISH_ORIGIN
+
+这里可以写 Secret 名称，不能写它的真实值或真实 Worker 域名。
+GitHub 不保存 Cloudflare API Token；Actions 使用受限短期 OIDC。
+不要恢复已经移除的 sync/cloudflare-destinations.json 公开地址文件。
+不要改工作流路径、仓库身份、main 分支限制、受众或验签逻辑来“临时修好”发布。
+
+八、什么时候需要本机私有配置操作
+
+以下内容不能仅靠公开规则更新完成：
+  更换上游订阅来源、节点密码或节点参数；
+  改某个策略组实际选用的节点、DNS 或其他非规则字段；
+  改私密个人规则、未受管理的字面量规则或规则段排序；
+  新增原模板中不存在的受管理分类，或重新上传完整 YAML 后重建联动模板。
+
+在本机使用订阅工坊，按需恢复“项目备份”和“托管设置备份”；这两份 JSON 用途不同。
+恢复原托管设置后连接原服务，维护同一个 Worker、KV 和订阅密钥，不重新创建固定链接。
+API Token 只填本机页面，不贴到聊天、不写源码、不进 GitHub Secret 或 Actions 日志。
+手动发布完整配置后，重新绑定自动联动，并验证保留字段与原链接。
+
+1.8.0 EXE 的“暂存草稿”和托管设置随退出清除。
+需要以后继续维护时，退出前主动导出项目及托管设置；导出文件保留在 EXE 旁“订阅工坊导出”。
+上述私有维护只有在用户当前终端具备原工具及备份、且任务确实需要时才进行；在其他终端仅修改公开规则，不需要取得这些文件。
+测试或维护只读取必要文件，不扫描、打印或打包整个工作区、导出目录或备份目录。
+
+九、如果用户也要求更新网页工具或 EXE
+
+日常更新已托管订阅的规则，无需重打 EXE。
+“Cloudflare 已更新”和“旧 EXE 的内置默认规则已更新”是两件事。
+
+网页工具源码是独立材料，不能假定 lake-l/rules 仓库包含它。
+只有用户另外提供了工具源码包（例如 subscription-studio.zip）或可访问的源码仓库，才进入这部分。
+有源码包时解压到任意目录，以包含 package.json、server.mjs、core.mjs 的目录作为“工具源码根目录”；下面的路径相对于这个根目录。
+没有工具源码时，仍可完成前述公开规则修改与自动发布；不要创建一个空的 subscription-studio 目录冒充源码，也不要声称已更新 EXE。
+
+工具源码内的相关文件：
+  data/presets.json：程序内置分类快照，格式包含解析后的规则对象。
+  rule-snapshot.mjs：validateSnapshot 校验并转换公共快照。
+  public/preset-upgrade.js：旧项目和旧草稿的规则升级。
+  public/direct-rules.js：本机每次导出使用的置顶强制直连规则。
+  core.mjs：配置构建、规则顺序及出口生成。
+  rule-automation.mjs：识别可管理规则块并创建私有联动模板。
+  portable/Build.ps1：打包便携 EXE。
+
+如需让新生成的配置也包含最新修正：
+1. 从已验证的公开快照通过 validateSnapshot 转换后更新内置 revision、updatedAt、blocks，保留其他项目元数据；不能把 snapshot.json 原样覆盖成 presets.json。
+2. 公开 pinned-direct 新增的强制直连不会自动进入旧 EXE 的 public/direct-rules.js，需要单独检查并同步。
+3. 修改构建顺序、DNS、预设升级或本机置顶规则时，运行对应程序测试和真实 Mihomo 校验。
+4. 用户确实要求新 EXE 时才更新版本并打包，核对新包内容，不把 .runtime、私有备份或真实配置塞进包。
+
+不能假定工坊“获取最新规则”会同步置顶规则：它读取 snapshot.json，不读取 pinned-direct.json。
+也不能为了改一条已托管规则就自动重发完整配置，覆盖用户的云端私有修改。
+
+十、失败、回退与隐私边界
+
+同步失败：
+  检查来源下载、回归、规则格式、数量或大量删除保护；修正原因后重试。
+  不删除测试、改成永远成功或绕过 Mihomo。
+
+发布失败：
+  查看脱敏阶段、状态码及固定诊断编号；失败应保留原订阅。
+  不打印完整异常对象、HTTP 请求头、OIDC JWT、Secret 值、Worker 地址或完整响应配置。
+  本机终端通常没有 Actions 的 OIDC 环境；不要为直接运行发布脚本而索取 Cloudflare API Token。
+
+回退：
+  通过新的公开回退提交恢复持久输入、相关测试和一致的生成输出，再经过正常发布流程。
+  不强推改写历史，不用旧文件拼成不一致快照，不手改 revision 或时间戳绕过过期保护。
+  大量删除保护触发时先核对差异；不要关闭保护硬发。
+
+始终不上传：
+  上游订阅链接、节点凭据、Cloudflare API Token、完整私有 YAML；
+  原订阅下载 URL 及其 token；
+  真实 Worker 域名；
+  subscription-project.json、subscription-hosting-private.json；
+  私有迁移模板、私有 KV 原文备份、运行目录、含机密的截图和日志。
+
+用户指定的域名、进程名和 IP 若写入公开规则，会在 GitHub 及历史记录中可见。
+如果属于私人或内部标识，应走本机私有规则路径；不能因为“不含节点密码”就默认可以公开。
+
+十一、交付给用户时说明什么
+
+用简短中文报告：
+  改了哪个对象，匹配父域/子域还是精确主机，最终走哪个出口；
+  修改了哪些持久输入及回归；
+  本地检查与 Mihomo 校验结果；
+  GitHub 提交和实际发布工作流链接，是否已完成；
+  用户是否只需更新原订阅，以及是否需要重连旧连接；
+  如果只做了本机文件、分支或 PR，明确尚未发布到原订阅。
+
+不要把“已提交”“Actions 在运行”“静态测试通过”写成“所有设备已应用”。
+
+十二、可直接交给其他智能体的任务模板
+
+请先阅读这份《订阅规则修改交接指南》，从 https://github.com/lake-l/rules 获取最新 main；所有规则文件路径相对于你当前获取的仓库根目录，不依赖我的本机目录。
+本次需求：把【域名或程序】按【仅主机／父域含全部子域／进程】范围改为【固定 DIRECT／指定策略组】。
+请修改持久输入，补充针对性回归，必要时生成一致快照并通过 Mihomo 校验。
+【若要求同步发布：】按当前授权把公开改动同步到 main，等待原 Cloudflare 自动发布完成，保留原订阅链接，告知我在设备点更新。
+【若仅本机修改：】只完成本机修改和验证，不推送。
+上游订阅链接、节点、完整配置、密钥及真实 Worker 域名均不得上传或输出。
+普通规则修改无需我重新提交 API Token，也不要重新创建订阅服务。
+
+核对入口：
+https://github.com/lake-l/rules/blob/main/sync/README.md
+https://github.com/lake-l/rules/blob/main/sync/CLOUDFLARE.md
+https://github.com/lake-l/rules/blob/main/sync/overrides.json
+https://github.com/lake-l/rules/blob/main/sync/pinned-direct.json
+https://github.com/lake-l/rules/blob/main/sync/sources.json
+https://github.com/lake-l/rules/blob/main/sync/regressions.json
+https://github.com/lake-l/rules/blob/main/.github/workflows/sync-rules.yml
+https://github.com/lake-l/rules/blob/main/.github/workflows/publish-cloudflare.yml
