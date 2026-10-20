@@ -25,8 +25,14 @@ export async function authorizeGitHub(request, {fetcher = (url, init) => globalT
     let keys = useCache && cachedKeys && now - cachedAt < 3600000 ? cachedKeys : null;
     let key = keys?.find(value => value.kid === header.kid);
     if (!key) {
-      stage = 'jwks_fetch';
-      const response = await fetcher(jwksURL, {redirect: 'error', signal: AbortSignal.timeout(10000), headers: {'User-Agent': 'subscription-studio-oidc/1.7.1', Accept: 'application/json'}});
+      stage = 'jwks_signal';
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 10000);
+      let response;
+      try {
+        stage = 'jwks_fetch';
+        response = await fetcher(jwksURL, {redirect: 'manual', signal: controller.signal, headers: {'User-Agent': 'subscription-studio-oidc/1.7.1', Accept: 'application/json'}});
+      } finally {clearTimeout(timer);}
       if (!response.ok) return deny('jwks_http');
       stage = 'jwks_document';
       keys = (await response.json()).keys;
@@ -39,5 +45,15 @@ export async function authorizeGitHub(request, {fetcher = (url, init) => globalT
     const publicKey = await crypto.subtle.importKey('jwk', {kty: 'RSA', n: key.n, e: key.e, alg: 'RS256', ext: true}, {name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256'}, false, ['verify']);
     stage = 'signature';
     return await crypto.subtle.verify('RSASSA-PKCS1-v1_5', publicKey, bytes(parts[2]), new TextEncoder().encode(parts[0] + '.' + parts[1])) || deny(stage);
-  } catch {return deny(stage);}
+  } catch (error) {
+    // Fixed diagnostics only: never reflect a token, request or exception text.
+    if (stage === 'jwks_fetch') {
+      const message = String(error?.message || '');
+      if (/illegal invocation|receiver|this.*fetch/i.test(message)) stage = 'jwks_receiver';
+      else if (/abort|timed? ?out/i.test(message)) stage = 'jwks_timeout';
+      else if (/redirect/i.test(message)) stage = 'jwks_redirect';
+      else if (error?.name === 'TypeError') stage = 'jwks_type';
+    }
+    return deny(stage);
+  }
 }

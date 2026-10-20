@@ -200,7 +200,7 @@ def run(kernel, root=ROOT):
                     response = json.loads(error.read(4096))
                     expected_response = response.get('error') == 'GitHub workflow authentication required'
                     worker_check = response.get('code')
-                    if worker_check not in ('token', 'jwt_decode', 'jwt_header', 'identity', 'identity_time', 'jwks_fetch', 'jwks_http', 'jwks_document', 'signing_key', 'jwk_import', 'signature'):
+                    if worker_check not in ('token', 'jwt_decode', 'jwt_header', 'identity', 'identity_time', 'jwks_signal', 'jwks_fetch', 'jwks_receiver', 'jwks_timeout', 'jwks_redirect', 'jwks_type', 'jwks_http', 'jwks_document', 'signing_key', 'jwk_import', 'signature'):
                         worker_check = 'unavailable'
                 except (ValueError, TypeError):
                     expected_response = False
