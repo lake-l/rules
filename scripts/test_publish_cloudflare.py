@@ -1,6 +1,7 @@
 import copy
 import base64
 import json
+import io
 import unittest
 import publish_cloudflare as publish
 
@@ -70,6 +71,8 @@ class PublisherTests(unittest.TestCase):
             self.assertEqual(output['stage'], 'layout')
         self.assertEqual(publish.safe_failure(ValueError('Cloudflare publication failed: HTTP 409; previous subscription retained'), 'publish')['http_status'], 409)
         self.assertEqual(publish.safe_failure(ValueError(private), private)['stage'], 'setup')
+        error = publish.urllib.error.HTTPError(private, 422, private, {}, io.BytesIO(json.dumps({'error': private}).encode()))
+        self.assertEqual(publish.publish_failure_code(error), 'unavailable')
 
 
 if __name__ == '__main__':

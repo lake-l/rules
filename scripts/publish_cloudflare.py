@@ -202,6 +202,14 @@ def safe_failure(error, stage):
     return {'status': 'failed', 'stage': stage if stage in phases else 'setup', 'http_status': status if isinstance(status, int) and 100 <= status <= 599 else None, 'previous_subscription': 'retained'}
 
 
+def publish_failure_code(error):
+    codes = {'Invalid rule publication': 'publication', 'Invalid managed rule fragment': 'fragment', 'Unexpected rule removal; previous subscription retained': 'rule_removal', 'Generated subscription exceeds 8 MB': 'size', 'An older or conflicting rule snapshot cannot replace the current version': 'stale', 'Subscription changed during publication; retry with the latest layout': 'concurrent_change'}
+    try:
+        return codes.get(json.loads(error.read(4096)).get('error'), 'unavailable')
+    except (ValueError, TypeError, AttributeError):
+        return 'unavailable'
+
+
 def run(kernel, root=ROOT):
     global PUBLISH_STAGE
     PUBLISH_STAGE = 'destination'
@@ -248,6 +256,7 @@ def run(kernel, root=ROOT):
             break
         except urllib.error.HTTPError as error:
             if error.code not in (429, 502, 503, 504) or attempt == 2:
+                print(json.dumps({'worker_publish_check': publish_failure_code(error)}))
                 raise ValueError(f'Cloudflare publication failed: HTTP {error.code}; previous subscription retained') from None
             time.sleep(2 ** (attempt + 1))
     # Never print the OIDC token, layout, configuration or request body.
