@@ -6,6 +6,7 @@ personal rules, the subscription access key, or a Cloudflare API token.
 import argparse
 import base64
 import datetime as dt
+import email.utils
 import hashlib
 import json
 import os
@@ -76,11 +77,31 @@ def public_identity_diagnostics(token, destination=''):
         checks = {key: str(claims.get(key)) == value for key, value in expected.items()}
         checks['event_name'] = claims.get('event_name') in ('push', 'workflow_run', 'workflow_dispatch')
         checks['sub'] = claims.get('sub') in ('repo:lake-l/rules:ref:refs/heads/main', 'repo:lake-l@191877580/rules@1364393721:ref:refs/heads/main')
+        header_part = token.split('.')[0]
+        header = json.loads(base64.urlsafe_b64decode(header_part + '=' * (-len(header_part) % 4)))
+        checks['algorithm'] = header.get('alg') == 'RS256'
+        checks['critical_headers_absent'] = not header.get('crit')
+        checks['kid_valid'] = isinstance(header.get('kid'), str) and len(header['kid']) <= 128
         now = int(time.time())
         deltas = {key: claims[key] - now if isinstance(claims.get(key), (int, float)) else None for key in ('iat', 'nbf', 'exp')}
         return {'matches': checks, 'seconds_from_now': deltas}
     except (ValueError, IndexError, TypeError):
         return {'metadata': 'unavailable'}
+
+
+def public_key_diagnostics(token):
+    try:
+        part = token.split('.')[0]
+        header = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
+        keys = request_json('https://token.actions.githubusercontent.com/.well-known/jwks')['keys']
+        key = next((key for key in keys if key.get('kid') == header.get('kid')), None)
+        signature_ok = False
+        if key:
+            program = "const fs=require('fs'),c=require('crypto');const x=JSON.parse(fs.readFileSync(0,'utf8'));const p=x.token.split('.');console.log(c.verify('RSA-SHA256',Buffer.from(p[0]+'.'+p[1]),c.createPublicKey({key:x.key,format:'jwk'}),Buffer.from(p[2],'base64url')));"
+            signature_ok = subprocess.check_output(['node', '-e', program], input=json.dumps({'token': token, 'key': key}), text=True, timeout=15).strip() == 'true'
+        return {'key_found': key is not None, 'key_count_within_limit': len(keys) <= 20, 'key_type_ok': bool(key and key.get('kty') == 'RSA' and key.get('use') == 'sig'), 'signature_valid': signature_ok}
+    except Exception:
+        return {'public_key_check': 'unavailable'}
 
 
 def load_sources(root=ROOT):
@@ -174,6 +195,17 @@ def run(kernel, root=ROOT):
                 # These fields describe this public repository and workflow;
                 # neither the signed bearer credential nor private YAML is logged.
                 print(sync.compact({'public_workflow_identity': public_identity_diagnostics(token, destination)}))
+                print(sync.compact({'public_signing_key': public_key_diagnostics(token)}))
+                try:
+                    response = json.loads(error.read(4096))
+                    expected_response = response.get('error') == 'GitHub workflow authentication required'
+                except (ValueError, TypeError):
+                    expected_response = False
+                try:
+                    server_delta = int(email.utils.parsedate_to_datetime(error.headers['Date']).timestamp() - time.time())
+                except (ValueError, TypeError, KeyError):
+                    server_delta = None
+                print(sync.compact({'worker_auth_response': expected_response, 'server_clock_delta_seconds': server_delta}))
             raise ValueError(f'Cloudflare layout request failed: HTTP {error.code}; previous subscription retained') from None
         publication, rules = compile_publication(layout, sources, source_commit, committed_at)
         validate_fragments(rules, layout, kernel)
