@@ -48,5 +48,6 @@
   "DOMAIN-SUFFIX,iot-tencent.com,DIRECT",
   "DOMAIN-SUFFIX,weixin.com,DIRECT",
   "DOMAIN-SUFFIX,weixinbridge.com,DIRECT",
-  "DOMAIN-SUFFIX,weixinsxy.com,DIRECT"
+  "DOMAIN-SUFFIX,weixinsxy.com,DIRECT",
+  "DOMAIN-SUFFIX,easysvip.com,DIRECT"
 ]
