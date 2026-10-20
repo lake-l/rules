@@ -27,6 +27,28 @@ class PublisherTests(unittest.TestCase):
             for row in rows:
                 self.assertIsInstance(json.loads(row[4:]), str)
 
+    def test_penguin_reports_are_direct_before_business_rules_without_lookalike_matches(self):
+        sources = publish.load_sources()
+        body, rules = publish.compile_publication(self.layout(), sources, 'a' * 40, '2026-10-21T00:00:00+00:00')
+        fragment = body['fragments'][0]
+        self.assertEqual(fragment['presetId'], '__pinned__')
+        self.assertEqual(fragment['target'], 'DIRECT')
+        pinned_rows = [json.loads(row[4:]) for row in fragment['content'].strip('\n').split('\n')]
+        self.assertEqual(rules[:len(pinned_rows)], pinned_rows)
+        for suffix in ('penguin-stats.io', 'penguin-stats.cn'):
+            self.assertTrue('DOMAIN-SUFFIX,' + suffix + ',DIRECT' in pinned_rows, 'Missing direct rule for ' + suffix)
+        # An ordinary category must not capture the report hosts first.
+        blocks = [
+            {'target': 'DIRECT', 'rules': [row.rsplit(',', 1)[0] for row in pinned_rows]},
+            {'target': 'ordinary-category', 'rules': ['DOMAIN-KEYWORD,penguin-stats']},
+        ]
+        for domain in ('penguin-stats.io', 'penguin-stats.cn', 'api.penguin-stats.io', 'www.penguin-stats.cn'):
+            with self.subTest(domain=domain):
+                self.assertEqual(publish.sync.route(blocks, domain), 'DIRECT')
+        for domain in ('penguin-stats.io.example.org', 'penguin-stats.cn.example.org', 'other-penguin-stats.io', 'notpenguin-stats.cn'):
+            with self.subTest(domain=domain):
+                self.assertEqual(publish.sync.route(blocks, domain), 'ordinary-category')
+
     def test_destinations_cannot_forward_oidc_credentials_elsewhere(self):
         expected = 'https://subscription-studio-012345abcdef.account.workers.dev'
         self.assertEqual(publish.origin(expected + '/'), expected)

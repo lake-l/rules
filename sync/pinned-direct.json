@@ -49,5 +49,7 @@
   "DOMAIN-SUFFIX,weixin.com,DIRECT",
   "DOMAIN-SUFFIX,weixinbridge.com,DIRECT",
   "DOMAIN-SUFFIX,weixinsxy.com,DIRECT",
-  "DOMAIN-SUFFIX,easysvip.com,DIRECT"
+  "DOMAIN-SUFFIX,easysvip.com,DIRECT",
+  "DOMAIN-SUFFIX,penguin-stats.io,DIRECT",
+  "DOMAIN-SUFFIX,penguin-stats.cn,DIRECT"
 ]
