@@ -1,6 +1,6 @@
 {
-  "revision": "sync-a69389753b8fa8854984d7a4091b2863406712fa1e071465c1dde76af5d15033",
-  "updatedAt": "2026-10-20T05:39:08.523773+00:00",
+  "revision": "sync-ed118dc3de9a8e91fa2badd2961de8fa980e281fc84c4aea7b6fb9f3f98d5966",
+  "updatedAt": "2026-10-21T22:23:27.873203+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -12,7 +12,7 @@
     },
     "02-category-ads-all.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
-      "count": 902
+      "count": 903
     },
     "03-BanProgramAD.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 193
+      "count": 204
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -148,7 +148,7 @@
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5385
+      "count": 5387
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -161,10 +161,10 @@
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 14839,
+    "preset-1": 14840,
     "preset-biliintl": 11,
     "preset-cn-services": 494,
-    "preset-2": 193,
+    "preset-2": 204,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
@@ -177,7 +177,7 @@
     "preset-12": 1074,
     "preset-13": 744,
     "preset-14": 1790,
-    "preset-15": 5718,
+    "preset-15": 5720,
     "preset-cn-ip": 10014
   }
 }
