@@ -1,6 +1,6 @@
 {
-  "revision": "sync-ed118dc3de9a8e91fa2badd2961de8fa980e281fc84c4aea7b6fb9f3f98d5966",
-  "updatedAt": "2026-10-21T22:23:27.873203+00:00",
+  "revision": "sync-ea6aea7a3cf660909627c2de7dff85215514596a05ce3d37904054874cbdff55",
+  "updatedAt": "2026-10-22T22:21:54.065119+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -156,7 +156,7 @@
     },
     "audit-geoip-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
-      "count": 10015
+      "count": 10013
     }
   },
   "groups": {
@@ -178,6 +178,6 @@
     "preset-13": 744,
     "preset-14": 1790,
     "preset-15": 5720,
-    "preset-cn-ip": 10014
+    "preset-cn-ip": 10012
   }
 }
