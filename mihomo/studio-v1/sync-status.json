@@ -1,6 +1,6 @@
 {
-  "revision": "sync-ea6aea7a3cf660909627c2de7dff85215514596a05ce3d37904054874cbdff55",
-  "updatedAt": "2026-10-22T22:21:54.065119+00:00",
+  "revision": "sync-71c6be77692a6d3078ebe4f83f802b194e66959a71a91d1a2a72313940793cd0",
+  "updatedAt": "2026-10-23T22:13:06.919284+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -120,7 +120,7 @@
     },
     "10-steam.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.list",
-      "count": 60
+      "count": 61
     },
     "19-playstation.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.list",
@@ -172,7 +172,7 @@
     "preset-7": 535,
     "preset-8": 16,
     "preset-9": 76,
-    "preset-10": 95,
+    "preset-10": 96,
     "preset-11": 302,
     "preset-12": 1074,
     "preset-13": 744,
