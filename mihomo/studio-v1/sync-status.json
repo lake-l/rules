@@ -1,6 +1,6 @@
 {
-  "revision": "sync-aed53c39e5205da0bac485960469c263bc967525cad22bc4d8264ecc89fa9115",
-  "updatedAt": "2026-10-24T21:37:48.860024+00:00",
+  "revision": "sync-234184c0915e0a157586f7c46ddb8f4b9a37fa6e53f1f13d7a0f5d7030194611",
+  "updatedAt": "2026-10-25T17:55:22.099754+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -12,7 +12,7 @@
     },
     "02-category-ads-all.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
-      "count": 903
+      "count": 904
     },
     "03-BanProgramAD.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
@@ -48,7 +48,7 @@
     },
     "audit-geosite-category-bank-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
-      "count": 55
+      "count": 59
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
@@ -144,11 +144,11 @@
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
-      "count": 1792
+      "count": 1791
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5387
+      "count": 5405
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -161,9 +161,9 @@
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 14840,
+    "preset-1": 14841,
     "preset-biliintl": 11,
-    "preset-cn-services": 494,
+    "preset-cn-services": 498,
     "preset-2": 204,
     "preset-3": 178,
     "preset-4": 24,
@@ -176,8 +176,8 @@
     "preset-11": 302,
     "preset-12": 1074,
     "preset-13": 744,
-    "preset-14": 1790,
-    "preset-15": 5720,
+    "preset-14": 1789,
+    "preset-15": 5738,
     "preset-cn-ip": 10010
   }
 }
