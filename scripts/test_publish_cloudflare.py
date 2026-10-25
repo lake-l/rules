@@ -49,6 +49,36 @@ class PublisherTests(unittest.TestCase):
             with self.subTest(domain=domain):
                 self.assertEqual(publish.sync.route(blocks, domain), 'ordinary-category')
 
+    def test_nvidia_domains_are_direct_before_ads_and_business_rules(self):
+        sources = publish.load_sources()
+        layout = self.layout()
+        layout['slots'].insert(1, {'slotId': 'slot-3', 'presetId': 'preset-1', 'target': 'REJECT'})
+        body, rules = publish.compile_publication(layout, sources, 'a' * 40, '2026-10-26T00:00:00+00:00')
+        pinned = [json.loads(row[4:]) for row in body['fragments'][0]['content'].strip('\n').split('\n')]
+        self.assertEqual(body['fragments'][0]['presetId'], '__pinned__')
+        self.assertEqual(rules[:len(pinned)], pinned)
+        blocks = [
+            {'target': 'DIRECT', 'rules': [row.rsplit(',', 1)[0] for row in pinned]},
+            {'target': 'REJECT', 'rules': ['DOMAIN-SUFFIX,metrics.nvidia.com', 'DOMAIN-SUFFIX,smetrics.nvidia.com']},
+            {'target': 'ordinary-category', 'rules': ['DOMAIN-KEYWORD,nvidia', 'DOMAIN-KEYWORD,geforce']},
+        ]
+        for host in (
+            'nvidia.com', 'www.nvidia.cn', 'international-gfe.download.nvidia.com',
+            'ota.nvidia.com', 'api.ngc.nvidia.com', 'login.nvgs.nvidia.com',
+            'metrics.nvidia.com', 'smetrics.nvidia.com', 'play.geforcenow.com',
+            'www.geforce.com', 'nvidia.co.jp', 'assets.nvidiagrid.net',
+            'gputechconf.com', 'shotwithgeforce.com', 'tegrazone.com',
+            'nvidia.custhelp.com', 'nvidia.tt.omtrdc.net', 'nvda.d2.sc.omtrdc.net',
+        ):
+            with self.subTest(host=host):
+                self.assertEqual(publish.sync.route(blocks, host), 'DIRECT')
+        for host in ('nvidia.com.example.org', 'notnvidia.com', 'geforcenow.com.example.org'):
+            with self.subTest(host=host):
+                self.assertEqual(publish.sync.route(blocks, host), 'ordinary-category')
+        for host in ('huggingface.co', 'hf.co', 'hf.space', 'other.custhelp.com', 'other.tt.omtrdc.net', 'akamaihd.net', 'cloudfront.net'):
+            with self.subTest(host=host):
+                self.assertEqual(publish.sync.route(blocks, host), '默认代理')
+
     def test_destinations_cannot_forward_oidc_credentials_elsewhere(self):
         expected = 'https://subscription-studio-012345abcdef.account.workers.dev'
         self.assertEqual(publish.origin(expected + '/'), expected)
