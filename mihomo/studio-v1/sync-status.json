@@ -1,6 +1,6 @@
 {
-  "revision": "sync-898bdab76bfb34edf53603fa4931f01ec7614899decb2ac348616b28928f743b",
-  "updatedAt": "2026-10-26T23:08:55.372637+00:00",
+  "revision": "sync-e65e8e80bbdca8fecd7dbd0c5387d6e0430d84732a2a081969a8ad7604915941",
+  "updatedAt": "2026-10-27T22:58:12.924168+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -44,7 +44,7 @@
     },
     "audit-category-ai-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list",
-      "count": 115
+      "count": 116
     },
     "audit-geosite-category-bank-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 204
+      "count": 207
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -136,11 +136,11 @@
     },
     "13-google.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list",
-      "count": 1075
+      "count": 1078
     },
     "27-microsoft.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
-      "count": 746
+      "count": 753
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
@@ -148,7 +148,7 @@
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5405
+      "count": 5407
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -163,8 +163,8 @@
     "preset-0": 140,
     "preset-1": 14841,
     "preset-biliintl": 11,
-    "preset-cn-services": 498,
-    "preset-2": 204,
+    "preset-cn-services": 499,
+    "preset-2": 207,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
@@ -174,10 +174,10 @@
     "preset-9": 76,
     "preset-10": 96,
     "preset-11": 302,
-    "preset-12": 1074,
-    "preset-13": 744,
+    "preset-12": 1077,
+    "preset-13": 751,
     "preset-14": 1789,
-    "preset-15": 5738,
+    "preset-15": 5740,
     "preset-cn-ip": 10010
   }
 }
