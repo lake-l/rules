@@ -1,6 +1,6 @@
 {
-  "revision": "sync-e65e8e80bbdca8fecd7dbd0c5387d6e0430d84732a2a081969a8ad7604915941",
-  "updatedAt": "2026-10-27T22:58:12.924168+00:00",
+  "revision": "sync-f064e3deabd64bd05ee6fea0082102b48aa28ef764290334e0d8b2c80bc77621",
+  "updatedAt": "2026-10-28T23:14:57.710316+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 207
+      "count": 213
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -144,7 +144,7 @@
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
-      "count": 1791
+      "count": 1793
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
@@ -164,7 +164,7 @@
     "preset-1": 14841,
     "preset-biliintl": 11,
     "preset-cn-services": 499,
-    "preset-2": 207,
+    "preset-2": 213,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
@@ -176,7 +176,7 @@
     "preset-11": 302,
     "preset-12": 1077,
     "preset-13": 751,
-    "preset-14": 1789,
+    "preset-14": 1791,
     "preset-15": 5740,
     "preset-cn-ip": 10010
   }
