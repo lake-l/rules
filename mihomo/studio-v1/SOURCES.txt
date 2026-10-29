@@ -89,7 +89,8 @@ https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list
     ]
   }
 ]
-原始文本副本位于 data/upstream；MetaCubeX GPLv3 许可位于 third-party/META-RULES-LICENSE。
+data/upstream 和下文 upstream/audit-* 为历史快照生成时的本地路径，当前仓库未收录这些副本；现行上游来源见仓库根目录 sync/sources.json。
+MetaCubeX GPLv3 许可见同目录 LICENSE-META-RULES.txt；同步维护方法见 ../../docs/rule-maintenance-guide.txt。
 ZJU-Rule 许可声明来源：https://github.com/lizhist/ZJU-Rule
 CC-BY-SA 4.0：https://creativecommons.org/licenses/by-sa/4.0/
 

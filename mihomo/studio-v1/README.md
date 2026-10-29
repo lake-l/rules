@@ -32,7 +32,7 @@
 
 修改与许可：规则经过分类、去重。MetaCubeX 数据的 GPLv3 许可见 LICENSE-META-RULES.txt；ZJU-Rule 衍生部分遵循 CC-BY-SA 4.0：https://creativecommons.org/licenses/by-sa/4.0/ 。各上游的许可与署名继续适用。
 
-自动同步的来源、修正和使用方法见 [维护说明](../../sync/README.md)。`snapshot.json` 是两种导出共用的完整规则快照；订阅工坊 1.4.0 可用“获取最新规则”更新。请维护 `sync/overrides.json`，直接修改生成的 preset 文件会被后续同步覆盖；custom-* 文件不受同步影响。
+自动同步的来源、修正和使用方法见 [维护说明](../../docs/rule-maintenance-guide.txt)。`snapshot.json` 是两种导出共用的完整规则快照；订阅工坊 1.4.0 可用“获取最新规则”更新。请维护 `sync/overrides.json`，直接修改生成的 preset 文件会被后续同步覆盖；custom-* 文件不受同步影响。
 
 
 2026-10-20：已修正 B站直播漏项、上海迪士尼业务分类、123云盘备用入口和 Windows Update 端点，移除已确认的业务/推送整域误拦。最终国内 IP 兜底可解析未命中的域名。全部修正在同步输入中持久保存并经过回归检查；程序内置快照同步更新至1.5.0。请重新生成配置以应用机场 CIDR 的国内网段排除，客户端已导入的远程规则可手动刷新，旧连接需重建。

@@ -99,8 +99,8 @@ mihomo/studio-v1/custom-*.yaml
 .github/workflows/publish-cloudflare.yml
   Actions 名称 Publish rules to Cloudflare，向原 Worker 发布公开规则。
 
-sync/CLOUDFLARE.md 与 sync/README.md
-  仓库内的自动发布及上游同步说明，应与最新实现一起阅读。
+docs/rule-maintenance-guide.txt（本指南）
+  上游同步与验证见第六节，Cloudflare 自动发布见第七节；应与上述脚本及工作流的最新实现一起阅读。
 
 三、常用分组对应表
 
@@ -390,8 +390,7 @@ API Token 只填本机页面，不贴到聊天、不写源码、不进 GitHub Se
 普通规则修改无需我重新提交 API Token，也不要重新创建订阅服务。
 
 核对入口：
-https://github.com/lake-l/rules/blob/main/sync/README.md
-https://github.com/lake-l/rules/blob/main/sync/CLOUDFLARE.md
+https://github.com/lake-l/rules/blob/main/docs/rule-maintenance-guide.txt
 https://github.com/lake-l/rules/blob/main/sync/overrides.json
 https://github.com/lake-l/rules/blob/main/sync/pinned-direct.json
 https://github.com/lake-l/rules/blob/main/sync/sources.json
