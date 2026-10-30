@@ -166,6 +166,17 @@ def build(manifest, overrides, sources):
             rows = exclude_networks(rows, correction['excludeNetworks'])
         for rule in rows:
             validate_rule(rule)
+        # Only reorder predicates with order-independent matching. Mixed resolving
+        # and non-resolving rules can change metadata.DstIP during evaluation.
+        # Keep those (and process/port rules) in upstream order. Group priority,
+        # options, and the revision format remain unchanged.
+        parts = [r.split(',') for r in rows]
+        passive = all(p[0].startswith('DOMAIN') or
+                      (p[0] in ('IP-CIDR', 'IP-CIDR6') and 'no-resolve' in p[2:])
+                      for p in parts)
+        resolving_ips = all(p[0] in ('IP-CIDR', 'IP-CIDR6') and len(p) == 2 for p in parts)
+        if passive or resolving_ips:
+            rows = sorted(rows)
         if len(rows) < max(1, group['baselineCount'] * .6) or len(rows) > max(100, group['baselineCount'] * 2):
             raise ValueError('Unexpected group size: ' + group['id'])
         blocks.append({k: group[k] for k in ('id', 'name', 'target')} | {'rules': rows})

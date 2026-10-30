@@ -397,3 +397,26 @@ https://github.com/lake-l/rules/blob/main/sync/sources.json
 https://github.com/lake-l/rules/blob/main/sync/regressions.json
 https://github.com/lake-l/rules/blob/main/.github/workflows/sync-rules.yml
 https://github.com/lake-l/rules/blob/main/.github/workflows/publish-cloudflare.yml
+
+确定性规则输出（2026-10-30）
+--------------------------
+scripts/sync_rules.py 在分类覆盖、去重、resolveIp 和 excludeNetworks 全部完成后，
+仅对下列组内规则按完整字符串排序：
+1. 域名规则及带 no-resolve 的 IP-CIDR/IP-CIDR6 规则；
+2. 仅包含无附加选项 IP-CIDR/IP-CIDR6 的组（国内 IP 回退）。
+同组规则使用同一目标，第一类不触发 DNS，第二类统一解析目的地址，组内排序不改变分流。
+规则组之间的顺序、规则内容/选项、分类覆盖、用户规则及 Cloudflare 接口均不改变。
+混合 DNS 解析行为、进程/端口规则等未证明安全的组合保留输入顺序。
+
+依据固定验证版本 Mihomo v1.19.32：
+https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/provider/classical_strategy.go
+https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/common/ipcidr.go
+classical 匹配逐项短路；IPCIDR.Match 可调用 ResolveIP 并修改后续规则使用的目的 IP。
+因此不能仅因同组目标相同就无条件排序。Cloudflare 展开为普通规则时同样需要这一限制。
+
+保留上游顺序有利于对照来源，也保留上游的匹配先后；安全集合采用确定性排序可消除
+纯重排造成的 YAML、snapshot 和 revision 变化。第一次同步会发生一次排序迁移；之后
+同样输入或仅重排的输入应保持输出字节及 updatedAt 不变。真实增删改仍改变 revision。
+revision 的哈希格式保持不变，发布端原有校验仍有效。
+同步工作流成功后仍会触发 Cloudflare 工作流；本改动不修改触发器，不承诺取消该运行。
+回归测试：python3 -m unittest discover -s scripts -p 'test_*.py'
