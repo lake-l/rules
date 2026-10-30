@@ -256,9 +256,11 @@ dropTypes 过滤该组上游规则类型，在 add 之前执行；不要把它�
    可以使用 GitHub 连接器提交明确的公开文件；不要求必须在本机使用 git。
 
 7. 等待 Actions 完成，不能只看“提交成功”。
-   sync/** 或 scripts/** 更新会触发 Sync upstream rules。
-   main 的 snapshot.json、pinned-direct.json 及指定发布文件变更会触发 Publish rules to Cloudflare。
-   Sync upstream rules 成功结束也会通过 workflow_run 触发发布，以覆盖机器人提交不再触发普通 push 工作流的情况。
+   main 的 sync/**、scripts/**、snapshot.json 或两个同步/发布工作流更新，统一触发 Sync upstream rules。
+   同步成功后仅通过 workflow_run 自动发布，避免同一次 push 在同步前后发布两次；机器人提交无需再次触发 push。
+   定时同步、两个工作流的手动入口、发布器测试及 Mihomo 校验均保留。
+   仅修改快照或发布工作流也会先拉取上游；同步失败时保留现有订阅，不自动发布。
+   若上游暂不可用而需要发布当前 main 的已校验快照，可手动运行 Publish rules to Cloudflare；该入口仍执行发布校验。
    以当时实际工作流触发条件为准；只有 docs 或单个 preset YAML 更新，不一定触发所需的完整链路。
 
 8. 核对最终发布记录。

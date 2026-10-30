@@ -1,13 +1,6 @@
 name: Publish rules to Cloudflare
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'mihomo/studio-v1/snapshot.json'
-      - 'sync/pinned-direct.json'
-      - 'scripts/publish_cloudflare.py'
-      - 'scripts/test_publish_cloudflare.py'
-      - '.github/workflows/publish-cloudflare.yml'
+  # Automatic publication has one entry point: successful upstream sync.
   workflow_run:
     workflows: ['Sync upstream rules']
     types: [completed]

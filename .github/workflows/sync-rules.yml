@@ -8,6 +8,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/sync-rules.yml'
+      # Cover former direct-publish inputs without racing the sync job.
+      - '.github/workflows/publish-cloudflare.yml'
+      - 'mihomo/studio-v1/snapshot.json'
       - 'scripts/**'
       - 'sync/**'
 permissions:
