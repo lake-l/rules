@@ -1,6 +1,6 @@
 {
-  "revision": "sync-71b94c03c6932f8f0f8f2d558f0da383bf12a5cbdcd9c1ad9b314b59e03f5c57",
-  "updatedAt": "2026-10-30T10:03:43.217570+00:00",
+  "revision": "sync-41e8eedd81e918872794b8f9b59d1c3462a49446ab832bb5a4cf71f5a8135638",
+  "updatedAt": "2026-10-31T22:30:35.312974+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -44,7 +44,7 @@
     },
     "audit-category-ai-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list",
-      "count": 116
+      "count": 119
     },
     "audit-geosite-category-bank-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
@@ -140,7 +140,7 @@
     },
     "27-microsoft.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
-      "count": 753
+      "count": 755
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
@@ -148,7 +148,7 @@
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5407
+      "count": 5410
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -163,7 +163,7 @@
     "preset-0": 140,
     "preset-1": 14841,
     "preset-biliintl": 11,
-    "preset-cn-services": 499,
+    "preset-cn-services": 502,
     "preset-2": 213,
     "preset-3": 178,
     "preset-4": 24,
@@ -175,9 +175,9 @@
     "preset-10": 96,
     "preset-11": 302,
     "preset-12": 1077,
-    "preset-13": 751,
+    "preset-13": 753,
     "preset-14": 1791,
-    "preset-15": 5740,
+    "preset-15": 5743,
     "preset-cn-ip": 10011
   }
 }
