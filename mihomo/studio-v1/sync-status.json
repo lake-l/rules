@@ -1,6 +1,6 @@
 {
-  "revision": "sync-43b38cb147b1939628153e6979ec7260aa388d15d3e80b9ca438ee98acf1dbf7",
-  "updatedAt": "2026-11-03T23:59:41.824651+00:00",
+  "revision": "sync-e4bea74e510aa5514c2f9a942bc2872a10714428d7d831f45f81a2236bf2bb4b",
+  "updatedAt": "2026-11-05T00:23:30.922493+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
