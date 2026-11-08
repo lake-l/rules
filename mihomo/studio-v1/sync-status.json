@@ -1,6 +1,6 @@
 {
-  "revision": "sync-b864e5276df3b122f909ec48ab106b70f3623bdad6235b985ba20b87d7daf7ee",
-  "updatedAt": "2026-11-07T22:47:03.737502+00:00",
+  "revision": "sync-e48cd808083815f258b5ca66ab6ceab5ffdec40229c6b56f062f6614e08eabd2",
+  "updatedAt": "2026-11-08T16:02:27.504256+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 213
+      "count": 217
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -112,7 +112,7 @@
     },
     "14-github.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.list",
-      "count": 65
+      "count": 66
     },
     "07-epicgames.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.list",
@@ -140,7 +140,7 @@
     },
     "27-microsoft.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
-      "count": 755
+      "count": 756
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
@@ -161,21 +161,21 @@
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 14845,
+    "preset-1": 14850,
     "preset-biliintl": 11,
     "preset-cn-services": 512,
-    "preset-2": 213,
+    "preset-2": 217,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
     "preset-6": 27,
     "preset-7": 535,
     "preset-8": 16,
-    "preset-9": 76,
+    "preset-9": 77,
     "preset-10": 96,
     "preset-11": 302,
     "preset-12": 1077,
-    "preset-13": 753,
+    "preset-13": 754,
     "preset-14": 1792,
     "preset-15": 5769,
     "preset-cn-ip": 9647
