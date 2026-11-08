@@ -17,7 +17,13 @@
       "dropTypes": []
     },
     "preset-1": {
-      "add": [],
+      "add": [
+        "DOMAIN-WILDCARD,*pcdn*.biliapi.net",
+        "DOMAIN-SUFFIX,mcdn.bilivideo.cn",
+        "DOMAIN-SUFFIX,mcdn.bilivideo.com",
+        "DOMAIN-SUFFIX,szbdyd.com",
+        "DOMAIN-SUFFIX,mountaintoys.cn"
+      ],
       "remove": [
         "DOMAIN-KEYWORD,admarvel",
         "DOMAIN-KEYWORD,admaster",
