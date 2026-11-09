@@ -1,50 +1,50 @@
 # Merge rule-providers into your existing configuration.
-# Assumes branch main and custom-*.yaml files in repository root.
+# Assumes branch main and custom-*.yaml files in stash-rules001/.
 rule-providers:
   custom-01-direct:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-01-direct.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-01-direct.yaml
     interval: 86400
   custom-02-jms:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-02-jms.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-02-jms.yaml
     interval: 86400
   custom-03-direct:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-03-direct.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-03-direct.yaml
     interval: 86400
   custom-04-jms:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-04-jms.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-04-jms.yaml
     interval: 86400
   custom-05-direct:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-05-direct.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-05-direct.yaml
     interval: 86400
   custom-06-jms:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-06-jms.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-06-jms.yaml
     interval: 86400
   custom-07-reject:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-07-reject.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-07-reject.yaml
     interval: 86400
   custom-08-jms:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-08-jms.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-08-jms.yaml
     interval: 86400
   custom-09-direct:
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/lake-l/rules/main/custom-09-direct.yaml
+    url: https://raw.githubusercontent.com/lake-l/rules/main/stash-rules001/custom-09-direct.yaml
     interval: 86400
 
 # Use this rules section to preserve the supplied rule order.
