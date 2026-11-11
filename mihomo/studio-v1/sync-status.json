@@ -1,6 +1,6 @@
 {
-  "revision": "sync-7c1c6afb2cc94f325308c6d4010b51482d9ed8d526aa54ee5ddd4df18e7770c4",
-  "updatedAt": "2026-11-10T02:10:18.590468+00:00",
+  "revision": "sync-ad38041782e5ac13c73a292e3869d725f52dfefb173db70622f4226edec4190a",
+  "updatedAt": "2026-11-11T00:03:57.023078+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -44,7 +44,7 @@
     },
     "audit-category-ai-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-cn.list",
-      "count": 128
+      "count": 129
     },
     "audit-geosite-category-bank-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.list",
@@ -148,7 +148,7 @@
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5436
+      "count": 5437
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -163,7 +163,7 @@
     "preset-0": 140,
     "preset-1": 14850,
     "preset-biliintl": 11,
-    "preset-cn-services": 512,
+    "preset-cn-services": 513,
     "preset-2": 217,
     "preset-3": 178,
     "preset-4": 24,
@@ -177,7 +177,7 @@
     "preset-12": 1077,
     "preset-13": 754,
     "preset-14": 1792,
-    "preset-15": 5769,
+    "preset-15": 5770,
     "preset-cn-ip": 9647
   }
 }
