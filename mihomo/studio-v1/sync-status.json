@@ -1,6 +1,6 @@
 {
-  "revision": "sync-41ae371a6c30b03073d8f58dd5291d6e5fac014f3f88c5a6db1bd5a35fe2dd0a",
-  "updatedAt": "2026-11-18T01:37:52.159399+00:00",
+  "revision": "sync-240598e17403bf1589ea816c5179afd5b18b1323705b19b9c3a106ab87bcd1a5",
+  "updatedAt": "2026-11-19T01:14:29.821097+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 217
+      "count": 218
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -164,7 +164,7 @@
     "preset-1": 14850,
     "preset-biliintl": 11,
     "preset-cn-services": 513,
-    "preset-2": 217,
+    "preset-2": 218,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
