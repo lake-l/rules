@@ -1,6 +1,6 @@
 {
-  "revision": "sync-92c781dce862a7081ac731a90afb798eda7883d7ce4a5b7e6e6a43680484879a",
-  "updatedAt": "2026-11-26T09:01:22.358912+00:00",
+  "revision": "sync-5a7321e326841266d4255fe047bb84b43094872d7c901f31d1048acdec63e675",
+  "updatedAt": "2026-11-26T09:02:19.178309+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -71,7 +71,7 @@
       "count": 21
     },
     "21-Telegram.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/Telegram.list",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list",
       "count": 12
     },
     "06-discord.list": {
@@ -168,7 +168,7 @@
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
-    "preset-6": 27,
+    "preset-6": 33,
     "preset-7": 535,
     "preset-8": 16,
     "preset-9": 77,
