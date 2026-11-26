@@ -1,6 +1,6 @@
 {
-  "revision": "sync-240598e17403bf1589ea816c5179afd5b18b1323705b19b9c3a106ab87bcd1a5",
-  "updatedAt": "2026-11-19T01:14:29.821097+00:00",
+  "revision": "sync-92c781dce862a7081ac731a90afb798eda7883d7ce4a5b7e6e6a43680484879a",
+  "updatedAt": "2026-11-26T09:01:22.358912+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -12,7 +12,7 @@
     },
     "02-category-ads-all.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
-      "count": 908
+      "count": 909
     },
     "03-BanProgramAD.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
@@ -52,7 +52,7 @@
     },
     "24-category-ai-!cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.list",
-      "count": 218
+      "count": 219
     },
     "18-youtube.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.list",
@@ -136,7 +136,7 @@
     },
     "13-google.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.list",
-      "count": 1078
+      "count": 1079
     },
     "27-microsoft.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
@@ -144,11 +144,11 @@
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
-      "count": 1798
+      "count": 1668
     },
     "audit-geolocation-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list",
-      "count": 5437
+      "count": 5458
     },
     "30-ChinaDomain.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
@@ -156,15 +156,15 @@
     },
     "audit-geoip-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
-      "count": 9640
+      "count": 9735
     }
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 14850,
+    "preset-1": 14851,
     "preset-biliintl": 11,
     "preset-cn-services": 513,
-    "preset-2": 218,
+    "preset-2": 219,
     "preset-3": 178,
     "preset-4": 24,
     "preset-5": 223,
@@ -174,10 +174,10 @@
     "preset-9": 77,
     "preset-10": 96,
     "preset-11": 302,
-    "preset-12": 1077,
+    "preset-12": 1078,
     "preset-13": 757,
-    "preset-14": 1796,
-    "preset-15": 5770,
-    "preset-cn-ip": 9640
+    "preset-14": 1666,
+    "preset-15": 5792,
+    "preset-cn-ip": 9735
   }
 }
