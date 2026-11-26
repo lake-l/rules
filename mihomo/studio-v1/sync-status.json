@@ -1,22 +1,22 @@
 {
-  "revision": "sync-5a7321e326841266d4255fe047bb84b43094872d7c901f31d1048acdec63e675",
-  "updatedAt": "2026-11-26T09:02:19.178309+00:00",
+  "revision": "sync-c04a84a40e95ad9b91a270aa45c15b9d278fc4f7fcfde9b43b62af35cd8f2d8c",
+  "updatedAt": "2026-11-26T09:03:36.611986+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
       "count": 132
     },
     "01-BanAD.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list",
-      "count": 614
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list",
+      "count": 590
     },
     "02-category-ads-all.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
       "count": 909
     },
     "03-BanProgramAD.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
-      "count": 1028
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list",
+      "count": 1016
     },
     "29-BanEasyPrivacy.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
@@ -127,8 +127,8 @@
       "count": 5
     },
     "12-ProxyMedia.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list",
-      "count": 280
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyMedia.list",
+      "count": 308
     },
     "23-spotify.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list",
@@ -151,17 +151,21 @@
       "count": 5458
     },
     "30-ChinaDomain.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
-      "count": 600
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list",
+      "count": 635
     },
     "audit-geoip-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
       "count": 9735
+    },
+    "easyprivacy-current.list": {
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanEasyPrivacy.list",
+      "count": 40332
     }
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 14851,
+    "preset-1": 46232,
     "preset-biliintl": 11,
     "preset-cn-services": 513,
     "preset-2": 219,
@@ -173,11 +177,11 @@
     "preset-8": 16,
     "preset-9": 77,
     "preset-10": 96,
-    "preset-11": 302,
+    "preset-11": 329,
     "preset-12": 1078,
     "preset-13": 757,
     "preset-14": 1666,
-    "preset-15": 5792,
+    "preset-15": 5818,
     "preset-cn-ip": 9735
   }
 }
