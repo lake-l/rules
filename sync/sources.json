@@ -7,9 +7,9 @@
       "baselineCount": 130
     },
     "01-BanAD.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanAD.list",
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list",
       "behavior": "classical",
-      "baselineCount": 614
+      "baselineCount": 590
     },
     "02-category-ads-all.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.list",
@@ -17,9 +17,9 @@
       "baselineCount": 902
     },
     "03-BanProgramAD.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanProgramAD.list",
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list",
       "behavior": "classical",
-      "baselineCount": 1028
+      "baselineCount": 1010
     },
     "29-BanEasyPrivacy.list": {
       "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
@@ -157,9 +157,9 @@
       "baselineCount": 4
     },
     "12-ProxyMedia.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ProxyMedia.list",
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyMedia.list",
       "behavior": "classical",
-      "baselineCount": 280
+      "baselineCount": 309
     },
     "23-spotify.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.list",
@@ -187,14 +187,19 @@
       "baselineCount": 5385
     },
     "30-ChinaDomain.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/ChinaDomain.list",
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list",
       "behavior": "classical",
-      "baselineCount": 600
+      "baselineCount": 634
     },
     "audit-geoip-cn.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.list",
       "behavior": "ipcidr",
       "baselineCount": 9609
+    },
+    "easyprivacy-current.list": {
+      "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanEasyPrivacy.list",
+      "behavior": "classical",
+      "baselineCount": 40332
     }
   },
   "groups": [
@@ -215,9 +220,10 @@
         "01-BanAD.list",
         "02-category-ads-all.list",
         "03-BanProgramAD.list",
-        "29-BanEasyPrivacy.list"
+        "29-BanEasyPrivacy.list",
+        "easyprivacy-current.list"
       ],
-      "baselineCount": 14850
+      "baselineCount": 23700
     },
     {
       "id": "preset-biliintl",
