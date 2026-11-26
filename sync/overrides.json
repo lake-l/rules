@@ -22,7 +22,8 @@
         "DOMAIN-SUFFIX,mcdn.bilivideo.cn",
         "DOMAIN-SUFFIX,mcdn.bilivideo.com",
         "DOMAIN-SUFFIX,szbdyd.com",
-        "DOMAIN-SUFFIX,mountaintoys.cn"
+        "DOMAIN-SUFFIX,mountaintoys.cn",
+        "DOMAIN,web-player-tracker.biliapi.net"
       ],
       "remove": [
         "DOMAIN-KEYWORD,admarvel",
