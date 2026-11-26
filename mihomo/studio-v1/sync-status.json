@@ -1,6 +1,6 @@
 {
-  "revision": "sync-c04a84a40e95ad9b91a270aa45c15b9d278fc4f7fcfde9b43b62af35cd8f2d8c",
-  "updatedAt": "2026-11-26T09:03:36.611986+00:00",
+  "revision": "sync-ffb7a9a799e2ee12a12b167852dbc97fd9c886016d861c065b220c35dfd9c2e8",
+  "updatedAt": "2026-11-26T09:04:19.667556+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -17,10 +17,6 @@
     "03-BanProgramAD.list": {
       "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list",
       "count": 1016
-    },
-    "29-BanEasyPrivacy.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
-      "count": 12611
     },
     "audit-biliintl.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list",
@@ -165,7 +161,7 @@
   },
   "groups": {
     "preset-0": 140,
-    "preset-1": 46232,
+    "preset-1": 42558,
     "preset-biliintl": 11,
     "preset-cn-services": 513,
     "preset-2": 219,
