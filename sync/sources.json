@@ -21,11 +21,6 @@
       "behavior": "classical",
       "baselineCount": 1010
     },
-    "29-BanEasyPrivacy.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/BanEasyPrivacy.list",
-      "behavior": "classical",
-      "baselineCount": 12615
-    },
     "audit-biliintl.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.list",
       "behavior": "domain",
@@ -220,10 +215,9 @@
         "01-BanAD.list",
         "02-category-ads-all.list",
         "03-BanProgramAD.list",
-        "29-BanEasyPrivacy.list",
         "easyprivacy-current.list"
       ],
-      "baselineCount": 23700
+      "baselineCount": 42558
     },
     {
       "id": "preset-biliintl",
