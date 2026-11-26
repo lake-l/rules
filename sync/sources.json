@@ -87,8 +87,8 @@
       "baselineCount": 21
     },
     "21-Telegram.list": {
-      "url": "https://raw.githubusercontent.com/lizhist/ZJU-Rule/master/Clash/Telegram.list",
-      "behavior": "classical",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.list",
+      "behavior": "ipcidr",
       "baselineCount": 12
     },
     "06-discord.list": {
