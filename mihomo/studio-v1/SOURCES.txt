@@ -1,3 +1,8 @@
+当前自动同步来源、规则格式及所属分类见 ../../sync/sources.json，最近成功同步的数量见 sync-status.json。
+MetaCubeX：https://github.com/MetaCubeX/meta-rules-dat
+ACL4SSR：https://github.com/ACL4SSR/ACL4SSR （广告、EasyPrivacy 转换、海外媒体与国内网站补充）
+
+以下为 2026-10-12 初始快照的历史来源及署名。
 固定规则快照，生成时展开写入 YAML，不自动更新。
 分类参考：
 https://github.com/n0de-sudo/Perfect-Rules
