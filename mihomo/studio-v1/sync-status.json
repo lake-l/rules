@@ -1,6 +1,6 @@
 {
-  "revision": "sync-ffb7a9a799e2ee12a12b167852dbc97fd9c886016d861c065b220c35dfd9c2e8",
-  "updatedAt": "2026-11-26T09:04:19.667556+00:00",
+  "revision": "sync-8ebe75b5e74b88d661e75a4a055e8085bde70d51ed856bc444fe9682f27de531",
+  "updatedAt": "2026-11-28T02:00:25.514922+00:00",
   "sources": {
     "00-private.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.list",
@@ -136,7 +136,7 @@
     },
     "27-microsoft.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.list",
-      "count": 759
+      "count": 760
     },
     "28-apple.list": {
       "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.list",
@@ -175,7 +175,7 @@
     "preset-10": 96,
     "preset-11": 329,
     "preset-12": 1078,
-    "preset-13": 757,
+    "preset-13": 758,
     "preset-14": 1666,
     "preset-15": 5818,
     "preset-cn-ip": 9735
